@@ -1,0 +1,27 @@
+package jhhan.harmonynow_backend.domain;
+
+import jakarta.persistence.*;
+import lombok.Getter;
+
+import static jakarta.persistence.FetchType.LAZY;
+
+@Entity
+@Getter
+public class ChordProgressionMap extends BaseEntity {
+
+    @Id
+    @GeneratedValue
+    @Column(name = "map_id")
+    private Long id;
+
+    @Column(nullable = false)
+    private Integer position;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "chord_id", nullable = false)
+    private Chord chord;
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "progression_id", nullable = false)
+    private Progression progression;
+}
