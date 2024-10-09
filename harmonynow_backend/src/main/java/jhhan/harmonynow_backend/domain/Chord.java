@@ -10,7 +10,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-public class Chord extends BaseEntity {
+public class Chord {
 
     @Id
     @GeneratedValue

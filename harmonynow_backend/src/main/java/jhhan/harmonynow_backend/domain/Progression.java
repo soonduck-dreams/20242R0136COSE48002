@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Progression extends BaseEntity {
+public class Progression {
 
     @Id
     @GeneratedValue

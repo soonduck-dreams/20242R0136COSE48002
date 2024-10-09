@@ -17,8 +17,9 @@ public class Article extends BaseEntity {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(columnDefinition = "TEXT")
-    private String audioUrl;
+    @OneToOne(fetch = LAZY)
+    @JoinColumn(name = "audio_id", nullable = false)
+    private Audio audio;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id", nullable = false)

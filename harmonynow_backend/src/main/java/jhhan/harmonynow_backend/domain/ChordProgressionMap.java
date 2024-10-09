@@ -7,7 +7,7 @@ import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
-public class ChordProgressionMap extends BaseEntity {
+public class ChordProgressionMap {
 
     @Id
     @GeneratedValue

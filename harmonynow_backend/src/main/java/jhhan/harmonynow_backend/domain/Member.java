@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Member extends BaseEntity {
+public class Member {
 
     @Id
     @GeneratedValue
@@ -24,7 +24,4 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-    private List<Article> articles = new ArrayList<>();
 }
