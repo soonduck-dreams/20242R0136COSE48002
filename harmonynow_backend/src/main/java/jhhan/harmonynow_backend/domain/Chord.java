@@ -1,7 +1,9 @@
 package jhhan.harmonynow_backend.domain;
 
 import jakarta.persistence.*;
+import jhhan.harmonynow_backend.dto.CreateChordDTO;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,9 +32,11 @@ public class Chord {
     @Column(nullable = false)
     private Boolean isPublic;
 
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String imageUrl;
 
+    @Setter
     @Column(columnDefinition = "TEXT")
     private String audioUrl;
 
@@ -42,4 +46,18 @@ public class Chord {
 
     @OneToMany(mappedBy = "chord", cascade = CascadeType.ALL)
     private List<ChordProgressionMap> maps = new ArrayList<>();
+
+
+    /* Methods */
+
+    public static Chord createChord(CreateChordDTO dto) {
+        Chord chord = new Chord();
+        chord.name = dto.getName();
+        chord.description = dto.getDescription();
+        chord.level = dto.getLevel();
+        chord.isPublic = dto.getIsPublic();
+        chord.member = dto.getMember();
+        return chord;
+    }
+
 }

@@ -38,3 +38,4 @@ out/
 
 ### 커스텀 ###
 *.map
+/src/main/resources/static/uploads
