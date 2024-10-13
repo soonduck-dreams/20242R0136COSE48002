@@ -2,54 +2,86 @@ package jhhan.harmonynow_backend.service;
 
 import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
+import jhhan.harmonynow_backend.dto.EditChordDTO;
 import jhhan.harmonynow_backend.repository.ChordRepository;
 import jhhan.harmonynow_backend.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
 public class ChordService {
 
     private final ChordRepository chordRepository;
 
-    private static final Logger logger = LogManager.getLogger(FileUtils.class);
-
-    @Transactional
-    public void saveChord(CreateChordDTO createChordDTO) {
-        Chord chord = Chord.createChord(createChordDTO);
+    public void saveChord(CreateChordDTO dto) {
+        Chord chord = Chord.createChord(dto);
         Long savedId = chordRepository.save(chord);
 
-        if (createChordDTO.getImageFile() != null && !createChordDTO.getImageFile().isEmpty()) {
-            try {
-                String imageUrl = FileUtils.saveImage(createChordDTO.getImageFile(), "chord/image", savedId);
-                chord.setImageUrl(imageUrl);
-            } catch (Exception e) {
-                logger.error("이미지 파일 저장 실패: id = " + savedId, e);
-            }
-        } else {
-            System.out.println("이미지 업로드하지 않음");
+        try {
+            String imageUrl = FileUtils.saveImageIfExists(dto.getImageFile(), "chord/image", savedId);
+            chord.setImageUrl(imageUrl);
+        } catch (Exception e) {
+            throw new RuntimeException("롤백", e);
         }
 
-        if (createChordDTO.getAudioFile() != null && !createChordDTO.getAudioFile().isEmpty()) {
-            try {
-                String audioUrl = FileUtils.saveAudio(createChordDTO.getAudioFile(), "chord/audio", savedId);
-                chord.setAudioUrl(audioUrl);
-            } catch (Exception e) {
-                logger.error("오디오 파일 저장 실패: id = " + savedId, e);
-            }
-        } else {
-            System.out.println("오디오 업로드하지 않음");
+        try {
+            String audioUrl = FileUtils.saveAudioIfExists(dto.getAudioFile(), "chord/audio", savedId);
+            chord.setAudioUrl(audioUrl);
+        } catch (Exception e) {
+            throw new RuntimeException("롤백", e);
         }
+    }
+
+    public void updateChord(Long chordId, EditChordDTO dto) {
+        Chord chord = chordRepository.findOne(chordId);
+        chord.updateChord(dto);
+
+        Long savedId = chordRepository.save(chord);
+
+        // 파일 삭제 또는 수정 로직
+        if (Boolean.TRUE.equals(dto.getIsImageDeleteRequested()) && FileUtils.deleteFile(chord.getImageUrl())) {
+            chord.setImageUrl(null);
+        } else {
+            try {
+                String imageUrl = FileUtils.saveImageIfExists(dto.getImageFile(), "chord/image", savedId);
+                if (imageUrl != null) {
+                    chord.setImageUrl(imageUrl);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("롤백", e);
+            }
+        }
+
+        if (Boolean.TRUE.equals(dto.getIsAudioDeleteRequested()) && FileUtils.deleteFile(chord.getAudioUrl())) {
+            chord.setAudioUrl(null);
+        } else {
+            try {
+                String audioUrl = FileUtils.saveAudioIfExists(dto.getAudioFile(), "chord/audio", savedId);
+                if (audioUrl != null) {
+                    chord.setAudioUrl(audioUrl);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("롤백", e);
+            }
+        }
+    }
+
+    public void deleteChord(Long chordId) {
+        Chord chord = chordRepository.findOne(chordId);
+
+        if (chord.getImageUrl() != null && !chord.getImageUrl().isEmpty()) {
+            FileUtils.deleteFile(chord.getImageUrl());
+        }
+
+        if (chord.getAudioUrl() != null && !chord.getAudioUrl().isEmpty()) {
+            FileUtils.deleteFile(chord.getAudioUrl());
+        }
+
+        chordRepository.delete(chordId);
     }
 }

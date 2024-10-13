@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index}">
+<head>
+    <title>Chord List</title>
+    <style>
+        .fieldError {
+            border-color: #bd2130;
+        }
+    </style>
+</head>
+<body>
+<section layout:fragment="admin-content">
+    <div class="container mt-4">
+        <h2>코드 진행 추가</h2>
+        <form th:action="@{/admin/progressions/new}" th:object="${form}" method="post" enctype="multipart/form-data">
+
+            <!-- 코드 진행 입력 필드 -->
+            <div id="chord-fields" th:data-none-value="${chordNoneValue}">
+                <div th:each="i : ${#numbers.sequence(0,3)}" class="mb-3" th:id="'chord-div-' + ${i}"
+                     th:style="${i == 0} ? '' : 'display:none;'">
+                    <label th:for="'chords' + ${i}">코드 [[${i + 1}]]</label>
+                    <select th:id="'chords' + ${i}" th:name="'chordIds[' + ${i} + ']'" onchange="updateDropdowns()"
+                            th:class="${#fields.hasErrors('audioFile')}? 'form-control fieldError' : 'form-control'">
+                        <option th:value="${chordNoneValue}" selected>없음</option>
+                        <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"></option>
+                    </select>
+                </div>
+                <div th:if="${#fields.hasErrors('chordIds')}" th:errors="*{chordIds}"></div>
+            </div>
+
+            <!-- 설명 입력 필드 -->
+            <div class="mb-3">
+                <label th:for="description">설명</label>
+                <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- 오디오 파일 업로드 필드 -->
+            <div class="mb-3">
+                <label th:for="audioFile">오디오 업로드</label>
+                <input type="file" th:field="*{audioFile}"
+                       th:class="${#fields.hasErrors('audioFile')}? 'form-control fieldError' : 'form-control'">
+                <div th:if="${#fields.hasErrors('audioFile')}" th:errors="*{audioFile}"></div>
+            </div>
+
+            <!-- 오디오 파일 업로드 필드 -->
+            <div class="mb-3">
+                <label th:for="audioFile">음악 생성용 샘플 미디 업로드</label>
+                <input type="file" th:field="*{sampleMidiFile}"
+                       th:class="${#fields.hasErrors('sampleMidiFile')}? 'form-control fieldError' : 'form-control'">
+                <div th:if="${#fields.hasErrors('sampleMidiFile')}" th:errors="*{sampleMidiFile}"></div>
+            </div>
+
+            <!-- 제출 버튼 -->
+            <div class="mt-3">
+                <button type="submit" class="btn btn-primary">저장</button>
+            </div>
+
+        </form>
+    </div>
+
+</section>
+</body>
+</html>

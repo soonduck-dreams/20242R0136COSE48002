@@ -6,7 +6,6 @@ spring:
     url: jdbc:postgresql://localhost:5432/shop
     username: admin_jhhan
     password: admin_jhhan
-    platform: postgres
 
   jpa:
     hibernate:
@@ -19,9 +18,13 @@ spring:
   thymeleaf:
     cache: false
 
+  sql:
+    init:
+      platform: postgres
+
 logging.level:
   org.hibernate.SQL: debug
   org.hibernate.orm.jdbc.bind: trace
 
 file:
-  path: src/main/resources/static/uploads/
+  path: C:/Users/hanju/harmonynow/

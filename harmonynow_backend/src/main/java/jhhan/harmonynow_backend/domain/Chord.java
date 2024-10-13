@@ -2,6 +2,7 @@ package jhhan.harmonynow_backend.domain;
 
 import jakarta.persistence.*;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
+import jhhan.harmonynow_backend.dto.EditChordDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -58,6 +59,14 @@ public class Chord {
         chord.isPublic = dto.getIsPublic();
         chord.member = dto.getMember();
         return chord;
+    }
+
+    public void updateChord(EditChordDTO dto) {
+        name = dto.getName();
+        description = dto.getDescription();
+        level = dto.getLevel();
+        isPublic = dto.getIsPublic();
+        member = dto.getMember();
     }
 
 }

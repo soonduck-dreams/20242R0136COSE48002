@@ -2,14 +2,69 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{admin/index}">
 <head>
-  <title>Chord List</title>
+    <title>Chord List</title>
+    <style>
+        /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
+        .col-id { width: 2%; }
+        .col-name { width: 10%; }
+        .col-description { width: 32%; }
+        .col-level { width: 8%; }
+        .col-public { width: 8%; }
+        .col-image { width: 15%; }
+        .col-audio { width: 15%; }
+        .col-edit { width: 5%; }
+        .col-delete { width: 5%; }
+    </style>
 </head>
 <body>
 <section layout:fragment="admin-content">
-  <div class="container mt-4">
-    <h2>코드 관리</h2>
-    <a type="button" class="btn btn-primary" href="/admin/chords/new">＋ 추가</a>
-  </div>
+    <div class="container mt-4">
+        <h2>코드 관리</h2>
+        <a type="button" class="btn btn-primary mb-3" href="/admin/chords/new">＋ 추가</a>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-id">ID</th>
+                <th class="col-name">이름</th>
+                <th class="col-description">설명</th>
+                <th class="col-level">레벨</th>
+                <th class="col-public">공개 여부</th>
+                <th class="col-image">이미지</th>
+                <th class="col-audio">오디오</th>
+                <th class="col-edit"></th>
+                <th class="col-delete"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="chord : ${dtoList}">
+                <td class="col-id" th:text="${chord.id}"></td>
+                <td class="col-name" th:text="${chord.name}"></td>
+                <td class="col-description" th:text="${chord.description}"></td>
+                <td class="col-level" th:text="${chord.displayLevel}"></td>
+                <td class="col-public" th:text="${chord.displayIsPublic}"></td>
+                <td class="col-image">
+                    <img th:if="${chord.imageUrl != null and !chord.imageUrl.isEmpty()}"
+                         th:src="@{${chord.imageUrl}}" alt="Chord Image" style="width: 50px; height: auto;">
+                </td>
+                <td class="col-audio">
+                    <audio class="compact-audio" th:if="${chord.audioUrl != null and !chord.audioUrl.isEmpty()}" controls>
+                        <source th:src="@{${chord.audioUrl}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td class="col-edit">
+                    <a class="btn btn-warning btn-sm" th:href="@{/admin/chords/edit/{id}(id=${chord.id})}">수정</a>
+                </td>
+                <td class="col-delete">
+                    <form th:action="@{/admin/chords/delete/{id}(id=${chord.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                        <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </section>
 </body>
 </html>

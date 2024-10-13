@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index}">
+<head>
+    <title>Chord List</title>
+    <style>
+        /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
+        .col-id { width: 2%; }
+        .col-name { width: 10%; }
+        .col-description { width: 32%; }
+        .col-level { width: 8%; }
+        .col-public { width: 8%; }
+        .col-image { width: 15%; }
+        .col-audio { width: 15%; }
+        .col-edit { width: 5%; }
+        .col-delete { width: 5%; }
+    </style>
+</head>
+<body>
+<section layout:fragment="admin-content">
+    <div class="container mt-4">
+        <h2>코드 진행 관리</h2>
+        <a type="button" class="btn btn-primary mb-3" href="/admin/progressions/new">＋ 추가</a>
+
+
+    </div>
+</section>
+</body>
+</html>

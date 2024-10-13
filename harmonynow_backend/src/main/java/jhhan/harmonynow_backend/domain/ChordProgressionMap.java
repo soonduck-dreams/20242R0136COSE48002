@@ -24,4 +24,12 @@ public class ChordProgressionMap {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "progression_id", nullable = false)
     private Progression progression;
+
+    public static ChordProgressionMap createChordProgressionMap(Chord chord, Progression progression, Integer position) {
+        ChordProgressionMap chordProgressionMap = new ChordProgressionMap();
+        chordProgressionMap.chord = chord;
+        chordProgressionMap.progression = progression;
+        chordProgressionMap.position = position;
+        return chordProgressionMap;
+    }
 }
