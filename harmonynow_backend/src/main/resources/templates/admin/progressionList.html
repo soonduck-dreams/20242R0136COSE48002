@@ -6,12 +6,10 @@
     <style>
         /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
         .col-id { width: 2%; }
-        .col-name { width: 10%; }
-        .col-description { width: 32%; }
-        .col-level { width: 8%; }
-        .col-public { width: 8%; }
-        .col-image { width: 15%; }
-        .col-audio { width: 15%; }
+        .col-name { width: 28%; }
+        .col-description { width: 30%; }
+        .col-audio { width: 20%; }
+        .col-midi { width: 10%; }
         .col-edit { width: 5%; }
         .col-delete { width: 5%; }
     </style>
@@ -22,7 +20,46 @@
         <h2>코드 진행 관리</h2>
         <a type="button" class="btn btn-primary mb-3" href="/admin/progressions/new">＋ 추가</a>
 
-
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th class="col-id">ID</th>
+                <th class="col-name">이름</th>
+                <th class="col-description">설명</th>
+                <th class="col-audio">오디오</th>
+                <th class="col-midi">MIDI</th>
+                <th class="col-edit"></th>
+                <th class="col-delete"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="progression : ${dtoList}">
+                <td class="col-id" th:text="${progression.id}"></td>
+                <td class="col-name" th:text="${progression.name}"></td>
+                <td class="col-description" th:text="${progression.description}"></td>
+                <td class="col-audio">
+                    <audio class="compact-audio" th:if="${progression.audioUrl != null and !progression.audioUrl.isEmpty()}" controls>
+                        <source th:src="@{${progression.audioUrl}}" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
+                <td class="col-midi">
+                    <a th:if="${progression.sampleMidiUrl != null and !progression.sampleMidiUrl.isEmpty()}"
+                       th:href="@{${progression.sampleMidiUrl}}" download>
+                        <button class="btn btn-primary btn-sm">다운로드</button>
+                    </a>
+                </td>
+                <td class="col-edit">
+                    <a class="btn btn-warning btn-sm" th:href="@{/admin/progressions/edit/{id}(id=${progression.id})}">수정</a>
+                </td>
+                <td class="col-delete">
+                    <form th:action="@{/admin/progressions/delete/{id}(id=${progression.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                        <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 </section>
 </body>

@@ -1,9 +1,9 @@
 package jhhan.harmonynow_backend.service;
 
-import jakarta.validation.Valid;
 import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.domain.ChordProgressionMap;
 import jhhan.harmonynow_backend.domain.Progression;
+import jhhan.harmonynow_backend.dto.ChordPositionDTO;
 import jhhan.harmonynow_backend.dto.CreateProgressionDTO;
 import jhhan.harmonynow_backend.repository.ChordProgressionMapRepository;
 import jhhan.harmonynow_backend.repository.ChordRepository;
@@ -12,6 +12,8 @@ import jhhan.harmonynow_backend.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -50,5 +52,19 @@ public class ProgressionService {
             ChordProgressionMap map = ChordProgressionMap.createChordProgressionMap(chord, progression, i);
             mapRepository.save(map);
         }
+    }
+
+    public String getProgressionName(Progression progression) {
+        List<ChordPositionDTO> dtoList = chordRepository.findChordPositionByProgressionId(progression.getId());
+
+        String name = "";
+        for (int i = 0; i < dtoList.size(); i++) {
+            name += dtoList.get(i).getName();
+            if (i != dtoList.size() - 1) {
+                name += " - ";
+            }
+        }
+
+        return name;
     }
 }

@@ -5,6 +5,8 @@ import jhhan.harmonynow_backend.domain.Progression;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class ProgressionRepository {
@@ -14,5 +16,9 @@ public class ProgressionRepository {
     public Long save(Progression progression) {
         em.persist(progression);
         return progression.getId();
+    }
+
+    public List<Progression> findAll() {
+        return em.createQuery("select p from Progression p", Progression.class).getResultList();
     }
 }
