@@ -45,7 +45,7 @@ public class Chord {
     @JoinColumn(name = "member_id")
     private Member member;
 
-    @OneToMany(mappedBy = "chord", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "chord", cascade = CascadeType.REMOVE)
     private List<ChordProgressionMap> maps = new ArrayList<>();
 
 

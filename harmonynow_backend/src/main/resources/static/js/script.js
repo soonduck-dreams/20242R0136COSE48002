@@ -33,3 +33,16 @@ function updateDropdowns() {
         }
     }
 }
+
+// Chord 수정, Progression 수정 UI에 쓰임
+function toggleFileInput(fileInputId, checkboxId) {
+    var fileInput = document.getElementById(fileInputId);
+    var checkbox = document.getElementById(checkboxId);
+
+    // 체크박스가 체크되어 있으면 파일 업로드 비활성화
+    if (checkbox.checked) {
+        fileInput.disabled = true;
+    } else {
+        fileInput.disabled = false;
+    }
+}

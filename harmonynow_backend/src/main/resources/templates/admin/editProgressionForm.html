@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{admin/index}">
+<head>
+  <title>Chord List</title>
+  <style>
+    .fieldError {
+      border-color: #bd2130;
+    }
+  </style>
+</head>
+<body>
+<section layout:fragment="admin-content">
+  <div class="container mt-4">
+    <h2>코드 진행 수정</h2>
+    <form th:action="@{/admin/progressions/edit/{id}(id=${form.id})}" th:object="${form}" method="post" enctype="multipart/form-data">
+
+      <!-- 코드 진행 입력 필드 -->
+      <div id="chord-fields" th:data-none-value="${chordNoneValue}">
+        <div th:each="i : ${#numbers.sequence(0,3)}" class="mb-3" th:id="'chord-div-' + ${i}"
+             th:style="${i < #lists.size(form.chordIds) + 1} ? '' : 'display:none;'">
+          <label th:for="'chords' + ${i}">코드 [[${i + 1}]]</label>
+          <select th:id="'chords' + ${i}" th:name="'chordIds[' + ${i} + ']'" onchange="updateDropdowns()"
+                  th:class="${#fields.hasErrors('chordIds')}? 'form-control fieldError' : 'form-control'">
+            <option th:value="${chordNoneValue}"
+                    th:selected="${i < #lists.size(form.chordIds) && form.chordIds[i] == chordNoneValue}">없음</option>
+            <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"
+                    th:selected="${i < #lists.size(form.chordIds) && form.chordIds[i] == chord.id}"></option>
+          </select>
+        </div>
+        <div th:if="${#fields.hasErrors('chordIds')}" th:errors="*{chordIds}"></div>
+      </div>
+
+      <!-- 설명 입력 필드 -->
+      <div class="mb-3">
+        <label th:for="description">설명</label>
+        <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+      </div>
+
+      <!-- 오디오 파일 업로드 필드 -->
+      <div class="mb-3">
+        <label th:for="audioFile" class="form-label">오디오 업로드</label>
+
+        <!-- 현재 오디오 미리보기 및 삭제 체크박스 -->
+        <div th:if="${form.audioUrl != null}" class="mb-2">
+          <p class="text-muted">현재 오디오:</p>
+          <audio controls class="w-100">
+            <source th:src="@{${form.audioUrl}}" type="audio/mpeg">
+            Your browser does not support the audio element.
+          </audio>
+
+          <!-- 오디오 삭제 체크박스 -->
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" th:field="*{isAudioDeleteRequested}" id="deleteAudioCheckbox"
+                   onclick="toggleFileInput('audioFile', 'deleteAudioCheckbox')">
+            <label class="form-check-label" for="deleteAudioCheckbox">오디오 삭제</label>
+          </div>
+        </div>
+
+        <!-- 파일 업로드 필드 -->
+        <input type="file" th:field="*{audioFile}" class="form-control mt-2"
+               th:class="${#fields.hasErrors('audioFile')} ? 'form-control fieldError' : 'form-control'" id="audioFile">
+        <div th:if="${#fields.hasErrors('audioFile')}" th:errors="*{audioFile}" class="text-danger"></div>
+      </div>
+
+      <!-- 미디 파일 업로드 필드 -->
+      <div class="mb-3">
+        <label th:for="sampleMidiFile" class="form-label">음악 생성용 샘플 미디 업로드</label>
+
+        <!-- 현재 미디 파일 및 삭제 체크박스 -->
+        <div th:if="${form.sampleMidiUrl != null and !form.sampleMidiUrl.isEmpty()}" class="mb-2">
+          <p class="text-muted">현재 샘플 미디 파일: <a th:href="@{${form.sampleMidiUrl}}" download>
+            <button type="button" class="btn btn-primary btn-sm">다운로드</button>
+          </a></p>
+
+          <!-- 미디 파일 삭제 체크박스 -->
+          <div class="form-check mt-2">
+            <input class="form-check-input" type="checkbox" th:field="*{isSampleMidiDeleteRequested}" id="deleteSampleMidiCheckbox"
+                   onclick="toggleFileInput('sampleMidiFile', 'deleteSampleMidiCheckbox')">
+            <label class="form-check-label" for="deleteSampleMidiCheckbox">미디 파일 삭제</label>
+          </div>
+        </div>
+
+        <!-- 파일 업로드 필드 -->
+        <input type="file" th:field="*{sampleMidiFile}" class="form-control mt-2"
+               th:class="${#fields.hasErrors('sampleMidiFile')} ? 'form-control fieldError' : 'form-control'" id="sampleMidiFile">
+        <div th:if="${#fields.hasErrors('sampleMidiFile')}" th:errors="*{sampleMidiFile}" class="text-danger"></div>
+      </div>
+
+
+      <!-- 제출 버튼 -->
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">저장</button>
+      </div>
+
+    </form>
+
+</section>
+</body>
+</html>

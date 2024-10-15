@@ -21,7 +21,7 @@
                      th:style="${i == 0} ? '' : 'display:none;'">
                     <label th:for="'chords' + ${i}">코드 [[${i + 1}]]</label>
                     <select th:id="'chords' + ${i}" th:name="'chordIds[' + ${i} + ']'" onchange="updateDropdowns()"
-                            th:class="${#fields.hasErrors('audioFile')}? 'form-control fieldError' : 'form-control'">
+                            th:class="${#fields.hasErrors('chordIds')}? 'form-control fieldError' : 'form-control'">
                         <option th:value="${chordNoneValue}" selected>없음</option>
                         <option th:each="chord : ${chords}" th:value="${chord.id}" th:text="${chord.name}"></option>
                     </select>

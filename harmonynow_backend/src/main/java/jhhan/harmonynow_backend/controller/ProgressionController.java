@@ -5,6 +5,7 @@ import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.domain.Progression;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
 import jhhan.harmonynow_backend.dto.CreateProgressionDTO;
+import jhhan.harmonynow_backend.dto.EditProgressionDTO;
 import jhhan.harmonynow_backend.dto.ReadProgressionDTO;
 import jhhan.harmonynow_backend.repository.ChordRepository;
 import jhhan.harmonynow_backend.repository.ProgressionRepository;
@@ -15,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.ArrayList;
@@ -67,6 +69,46 @@ public class ProgressionController {
         }
 
         progressionService.saveProgression(dto);
+        return "redirect:/admin/progressions";
+    }
+
+    @GetMapping("/admin/progressions/edit/{progressionId}")
+    public String adminEditProgressionForm(@PathVariable Long progressionId, Model model) {
+        Progression progression = progressionRepository.findOne(progressionId);
+        List<Long> chordIds = progressionService.getChordIdsInProgression(progression);
+        List<Chord> chords = chordRepository.findAll();
+
+        EditProgressionDTO dto = new EditProgressionDTO(progressionId, chordIds, progression.getDescription(),
+                                                        progression.getAudioUrl(), progression.getSampleMidiUrl());
+
+        model.addAttribute("form", dto);
+        model.addAttribute("chords", chords);
+        model.addAttribute("chordNoneValue", -1);
+
+        return "admin/editProgressionForm";
+    }
+
+    @PostMapping("/admin/progressions/edit/{progressionId}")
+    public String adminEditProgression(@PathVariable Long progressionId,
+                                       @Valid @ModelAttribute("form") EditProgressionDTO dto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            Progression progression = progressionRepository.findOne(progressionId);
+            List<Long> chordIds = progressionService.getChordIdsInProgression(progression);
+            List<Chord> chords = chordRepository.findAll();
+
+            dto.setId(progressionId);
+            dto.setChordIds(chordIds);
+            dto.setAudioUrl(progression.getAudioUrl());
+            dto.setSampleMidiUrl(progression.getSampleMidiUrl());
+
+            model.addAttribute("chords", chords);
+            model.addAttribute("chordNoneValue", -1);
+
+            return "admin/editProgressionForm";
+        }
+
+        progressionService.updateProgression(progressionId, dto);
+
         return "redirect:/admin/progressions";
     }
 }

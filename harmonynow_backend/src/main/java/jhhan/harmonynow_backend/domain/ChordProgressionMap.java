@@ -32,4 +32,9 @@ public class ChordProgressionMap {
         chordProgressionMap.position = position;
         return chordProgressionMap;
     }
+
+    public void updateChordProgressionMap(Integer position, Chord chord) {
+        this.chord = chord;
+        this.position = position;
+    }
 }

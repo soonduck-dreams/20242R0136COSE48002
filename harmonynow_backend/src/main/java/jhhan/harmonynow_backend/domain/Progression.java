@@ -2,6 +2,7 @@ package jhhan.harmonynow_backend.domain;
 
 import jakarta.persistence.*;
 import jhhan.harmonynow_backend.dto.CreateProgressionDTO;
+import jhhan.harmonynow_backend.dto.EditProgressionDTO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,12 +29,16 @@ public class Progression {
     @Column(columnDefinition = "TEXT")
     private String sampleMidiUrl;
 
-    @OneToMany(mappedBy = "progression", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "progression", cascade = CascadeType.REMOVE)
     private List<ChordProgressionMap> maps = new ArrayList<>();
 
     public static Progression CreateProgression(CreateProgressionDTO dto) {
         Progression progression = new Progression();
         progression.description = dto.getDescription();
         return progression;
+    }
+
+    public void updateProgression(EditProgressionDTO dto) {
+        this.description = dto.getDescription();
     }
 }

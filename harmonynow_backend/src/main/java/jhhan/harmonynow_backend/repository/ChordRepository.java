@@ -2,7 +2,7 @@ package jhhan.harmonynow_backend.repository;
 
 import jakarta.persistence.EntityManager;
 import jhhan.harmonynow_backend.domain.Chord;
-import jhhan.harmonynow_backend.dto.ChordPositionDTO;
+import jhhan.harmonynow_backend.dto.ChordNameIdDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -29,15 +29,15 @@ public class ChordRepository {
     }
 
     // 특정 Progression에 포함된 각 Chord를 순서대로 조회
-    public List<ChordPositionDTO> findChordPositionByProgressionId(Long progressionId) {
+    public List<ChordNameIdDTO> findChordNameIdByProgressionId(Long progressionId) {
         List<Object[]> results = em.createQuery(
-                        "SELECT map.chord.name, map.position FROM ChordProgressionMap map WHERE map.progression.id = :progressionId ORDER BY map.position ASC", Object[].class)
+                        "SELECT map.chord.name, map.chord.id FROM ChordProgressionMap map WHERE map.progression.id = :progressionId ORDER BY map.position ASC", Object[].class)
                 .setParameter("progressionId", progressionId)
                 .getResultList();
 
-        List<ChordPositionDTO> dtoList = new ArrayList<>();
+        List<ChordNameIdDTO> dtoList = new ArrayList<>();
         for (Object[] result : results) {
-            dtoList.add(new ChordPositionDTO((String) result[0], (Integer) result[1]));
+            dtoList.add(new ChordNameIdDTO((String) result[0], (Long) result[1]));
         }
 
         return dtoList;

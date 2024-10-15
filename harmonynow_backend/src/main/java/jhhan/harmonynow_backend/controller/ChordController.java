@@ -68,7 +68,7 @@ public class ChordController {
                                  @Valid @ModelAttribute("form") EditChordDTO dto, BindingResult result, Model model) {
         if (result.hasErrors()) {
             Chord chord = chordRepository.findOne(chordId);
-            dto.setId(chord.getId());
+            dto.setId(chordId);
             dto.setImageUrl(chord.getImageUrl());
             dto.setAudioUrl(chord.getAudioUrl());
 

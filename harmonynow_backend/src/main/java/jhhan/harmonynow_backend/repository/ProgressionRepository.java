@@ -18,6 +18,10 @@ public class ProgressionRepository {
         return progression.getId();
     }
 
+    public Progression findOne(Long progressionId) {
+        return em.find(Progression.class, progressionId);
+    }
+
     public List<Progression> findAll() {
         return em.createQuery("select p from Progression p", Progression.class).getResultList();
     }

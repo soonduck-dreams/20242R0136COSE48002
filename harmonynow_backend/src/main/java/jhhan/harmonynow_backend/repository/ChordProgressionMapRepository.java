@@ -15,4 +15,9 @@ public class ChordProgressionMapRepository {
         em.persist(chordProgressionMap);
         return chordProgressionMap.getId();
     }
+
+    public void delete(Long chordProgressionMapId) {
+        ChordProgressionMap map = em.find(ChordProgressionMap.class, chordProgressionMapId);
+        em.remove(map);
+    }
 }
