@@ -28,6 +28,10 @@ public class ReadChordDTO {
                 break;
             case C:
                 displayLevel = "중급";
+                break;
+            case D:
+                displayLevel = "고급";
+                break;
         }
 
         if (Boolean.TRUE.equals(chord.getIsPublic())) {

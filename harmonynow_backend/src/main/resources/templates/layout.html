@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title layout:title-pattern="$LAYOUT_TITLE :: $CONTENT_TITLE">HarmonyNow</title>
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/script.js}"></script>
     <style>
@@ -13,6 +16,10 @@
             margin: 0;
             padding: 0;
             height: 100%;
+            font-family: "Noto Sans KR", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
         }
 
         /* 전체 페이지를 Flex 컨테이너로 설정 */
@@ -70,6 +77,13 @@
 
         audio.compact-audio {
             width: 150px;
+        }
+
+        .truncate {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            max-width: 0;
         }
 
     </style>

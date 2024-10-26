@@ -34,7 +34,7 @@
         <h2>코드 관리</h2>
         <a type="button" class="btn btn-primary mb-3" href="/admin/chords/new">＋ 추가</a>
 
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
                 <th class="col-id">ID</th>
@@ -52,7 +52,7 @@
             <tr th:each="chord : ${dtoList}">
                 <td class="col-id" th:text="${chord.id}"></td>
                 <td class="col-name" th:text="${chord.name}"></td>
-                <td class="col-description" th:text="${chord.description}"></td>
+                <td class="col-description truncate" th:text="${chord.description}"></td>
                 <td class="col-level" th:text="${chord.displayLevel}"></td>
                 <td class="col-public" th:text="${chord.displayIsPublic}"></td>
                 <td class="col-image">

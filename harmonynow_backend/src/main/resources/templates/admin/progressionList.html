@@ -6,8 +6,8 @@
     <style>
         /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
         .col-id { width: 2%; }
-        .col-name { width: 28%; }
-        .col-description { width: 30%; }
+        .col-name { width: 20%; }
+        .col-description { width: 38%; }
         .col-audio { width: 20%; }
         .col-midi { width: 10%; }
         .col-edit { width: 5%; }
@@ -20,7 +20,7 @@
         <h2>코드 진행 관리</h2>
         <a type="button" class="btn btn-primary mb-3" href="/admin/progressions/new">＋ 추가</a>
 
-        <table class="table table-striped">
+        <table class="table table-striped table-hover">
             <thead>
             <tr>
                 <th class="col-id">ID</th>
@@ -36,7 +36,7 @@
             <tr th:each="progression : ${dtoList}">
                 <td class="col-id" th:text="${progression.id}"></td>
                 <td class="col-name" th:text="${progression.name}"></td>
-                <td class="col-description" th:text="${progression.description}"></td>
+                <td class="col-description truncate" th:text="${progression.description}"></td>
                 <td class="col-audio">
                     <audio class="compact-audio" th:if="${progression.audioUrl != null and !progression.audioUrl.isEmpty()}" controls>
                         <source th:src="@{${progression.audioUrl}}" type="audio/mpeg">
