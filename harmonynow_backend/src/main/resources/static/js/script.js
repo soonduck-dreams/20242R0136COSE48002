@@ -46,3 +46,12 @@ function toggleFileInput(fileInputId, checkboxId) {
         fileInput.disabled = false;
     }
 }
+
+// Chord 목록 조회 UI에서 삭제 에러 toast 메시지를 띄우는 데 쓰임
+function showToastMessage(toastId) {
+    const toastLiveExample = document.getElementById(toastId);
+
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+    console.log(toastBootstrap);
+    toastBootstrap.show();
+}

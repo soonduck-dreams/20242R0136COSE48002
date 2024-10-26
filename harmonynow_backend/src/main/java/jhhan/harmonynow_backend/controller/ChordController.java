@@ -6,6 +6,7 @@ import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
 import jhhan.harmonynow_backend.dto.EditChordDTO;
 import jhhan.harmonynow_backend.dto.ReadChordDTO;
+import jhhan.harmonynow_backend.exception.ChordNotDeletableException;
 import jhhan.harmonynow_backend.repository.ChordRepository;
 import jhhan.harmonynow_backend.service.ChordService;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -80,8 +82,12 @@ public class ChordController {
     }
 
     @PostMapping("/admin/chords/delete/{chordId}")
-    public String adminDeleteChord(@PathVariable Long chordId, Model model) {
-        chordService.deleteChord(chordId);
+    public String adminDeleteChord(@PathVariable Long chordId, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            chordService.deleteChord(chordId);
+        } catch (ChordNotDeletableException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+        }
 
         return "redirect:/admin/chords";
     }

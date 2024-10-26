@@ -3,6 +3,8 @@ package jhhan.harmonynow_backend.service;
 import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
 import jhhan.harmonynow_backend.dto.EditChordDTO;
+import jhhan.harmonynow_backend.exception.ChordNotDeletableException;
+import jhhan.harmonynow_backend.repository.ChordProgressionMapRepository;
 import jhhan.harmonynow_backend.repository.ChordRepository;
 import jhhan.harmonynow_backend.utils.FileUtils;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ChordService {
 
     private final ChordRepository chordRepository;
+    private final ChordProgressionMapRepository mapRepository;
 
     public void saveChord(CreateChordDTO dto) {
         Chord chord = Chord.createChord(dto);
@@ -73,6 +76,10 @@ public class ChordService {
 
     public void deleteChord(Long chordId) {
         Chord chord = chordRepository.findOne(chordId);
+
+        if (mapRepository.countByChordId(chordId) > 0) {
+            throw new ChordNotDeletableException("삭제 실패! 현재 이 코드를 사용 중인 코드 진행이 있습니다.");
+        }
 
         if (chord.getImageUrl() != null && !chord.getImageUrl().isEmpty()) {
             FileUtils.deleteFile(chord.getImageUrl());
