@@ -3,7 +3,7 @@ spring:
   datasource:
     hikari:
       maximum-pool-size: 4
-    url: jdbc:postgresql://localhost:5432/shop
+    url: jdbc:postgresql://localhost:5432/harmonynow
     username: admin_jhhan
     password: admin_jhhan
 
@@ -15,12 +15,16 @@ spring:
         #        show_sql: true
         format_sql: true
 
+    defer-datasource-initialization: true
+
   thymeleaf:
     cache: false
 
   sql:
     init:
       platform: postgres
+      data-locations: classpath*:db/data.sql
+      mode: always
 
 logging.level:
   org.hibernate.SQL: debug
