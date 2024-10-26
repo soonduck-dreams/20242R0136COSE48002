@@ -40,3 +40,4 @@ out/
 *.map
 /src/main/resources/static/uploads
 /src/main/resources/db
+application.yml
