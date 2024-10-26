@@ -140,4 +140,18 @@ public class ProgressionService {
             }
         }
     }
+
+    public void deleteProgression(Long progressionId) {
+        Progression progression = progressionRepository.findOne(progressionId);
+
+        if (progression.getAudioUrl() != null && !progression.getAudioUrl().isEmpty()) {
+            FileUtils.deleteFile(progression.getAudioUrl());
+        }
+
+        if (progression.getSampleMidiUrl() != null && !progression.getSampleMidiUrl().isEmpty()) {
+            FileUtils.deleteFile(progression.getSampleMidiUrl());
+        }
+
+        progressionRepository.delete(progressionId);
+    }
 }

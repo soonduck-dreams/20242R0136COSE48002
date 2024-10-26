@@ -25,4 +25,9 @@ public class ProgressionRepository {
     public List<Progression> findAll() {
         return em.createQuery("select p from Progression p", Progression.class).getResultList();
     }
+
+    public void delete(Long progressionId) {
+        Progression progression = findOne(progressionId);
+        em.remove(progression);
+    }
 }

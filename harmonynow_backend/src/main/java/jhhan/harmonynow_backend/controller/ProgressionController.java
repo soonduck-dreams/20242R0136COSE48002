@@ -111,4 +111,11 @@ public class ProgressionController {
 
         return "redirect:/admin/progressions";
     }
+
+    @PostMapping("/admin/progressions/delete/{progressionId}")
+    public String adminDeleteProgression(@PathVariable Long progressionId, Model model) {
+        progressionService.deleteProgression(progressionId);
+
+        return "redirect:/admin/progressions";
+    }
 }
