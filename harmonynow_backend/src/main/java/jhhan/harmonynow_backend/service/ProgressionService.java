@@ -21,13 +21,14 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class ProgressionService {
 
     private final ProgressionRepository progressionRepository;
     private final ChordRepository chordRepository;
     private final ChordProgressionMapRepository mapRepository;
 
+    @Transactional
     public void saveProgression(CreateProgressionDTO dto) {
         Progression progression = Progression.CreateProgression(dto);
         Long savedId = progressionRepository.save(progression);
@@ -115,6 +116,13 @@ public class ProgressionService {
         return dtoList;
     }
 
+    public ReadProgressionDTO getProgressionById(Long progressionId, boolean isSampleMidiUrlNeeded) {
+        Progression progression = progressionRepository.findOne(progressionId);
+        return new ReadProgressionDTO(progression.getId(), getProgressionName(progression), progression.getDescription(), progression.getAudioUrl(),
+                isSampleMidiUrlNeeded ? progression.getSampleMidiUrl() : null);
+    }
+
+    @Transactional
     public void updateProgression(Long progressionId, EditProgressionDTO dto) {
         Progression progression = progressionRepository.findOne(progressionId);
         progression.updateProgression(dto);
@@ -174,6 +182,7 @@ public class ProgressionService {
         }
     }
 
+    @Transactional
     public void deleteProgression(Long progressionId) {
         Progression progression = progressionRepository.findOne(progressionId);
 

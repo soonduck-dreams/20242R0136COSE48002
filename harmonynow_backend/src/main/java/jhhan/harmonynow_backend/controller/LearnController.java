@@ -45,4 +45,15 @@ public class LearnController {
 
         return "learn/chordDetail";
     }
+
+    @GetMapping("/learn/progressions/{progressionId}")
+    public String progressionDetail(@PathVariable Long progressionId, Model model) {
+        ReadProgressionDTO dto = progressionService.getProgressionById(progressionId, false);
+        List<ReadChordDTO> chordDTOList = chordRepository.findChordsByProgressionId(progressionId);
+
+        model.addAttribute("progression", dto);
+        model.addAttribute("chords", chordDTOList);
+
+        return "learn/progressionDetail";
+    }
 }

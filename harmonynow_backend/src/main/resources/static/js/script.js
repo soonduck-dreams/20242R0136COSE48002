@@ -204,6 +204,7 @@ function clearChatHistory() {
     sessionStorage.removeItem("chatHistory");
 
     loadChatHistory();
+    sendDocument();
 }
 
 /* 커스텀 플레이 버튼 */

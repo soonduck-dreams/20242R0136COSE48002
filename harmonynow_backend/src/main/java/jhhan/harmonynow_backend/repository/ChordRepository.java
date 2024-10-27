@@ -4,6 +4,7 @@ import jakarta.persistence.EntityManager;
 import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.domain.Level;
 import jhhan.harmonynow_backend.dto.ChordNameIdDTO;
+import jhhan.harmonynow_backend.dto.ReadChordDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -45,6 +46,19 @@ public class ChordRepository {
         List<ChordNameIdDTO> dtoList = new ArrayList<>();
         for (Object[] result : results) {
             dtoList.add(new ChordNameIdDTO((String) result[0], (Long) result[1]));
+        }
+
+        return dtoList;
+    }
+
+    // 특정 Progression에 포함된 Chord를 중복 없이, 순서 무관하게 조회
+    public List<ReadChordDTO> findChordsByProgressionId(Long progressionId) {
+        List<Chord> chords = em.createQuery("SELECT map.chord FROM ChordProgressionMap map WHERE map.progression.id = :progressionId", Chord.class)
+                .setParameter("progressionId", progressionId).getResultList();
+
+        List<ReadChordDTO> dtoList = new ArrayList<>();
+        for (Chord chord : chords) {
+            dtoList.add(new ReadChordDTO(chord));
         }
 
         return dtoList;
