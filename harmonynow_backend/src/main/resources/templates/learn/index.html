@@ -9,18 +9,22 @@
     <!-- 사이드바 시작 -->
     <div class="chat-sidebar shadow-lg">
         <div class="chat-container">
-            <div class="chat-header">
-                질문하기
+            <div class="chat-header d-flex justify-content-between align-items-center">
+                <span>질문하기</span>
+                <!-- 우상단에 휴지통 아이콘 추가 -->
+                <button class="btn p-0 trash-button" id="chat-trash-button" data-bs-toggle="tooltip" title="대화 내역 삭제">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
             </div>
             <div class="chat-messages" id="chat-content">
+                <!-- 이 안에서 채팅 오고 감 -->
             </div>
-            <!-- 스타터 질문 버튼 추가 -->
             <div class="chat-starter-questions d-flex justify-content-around p-2">
                 <button class="btn btn-outline-primary btn-sm" id="starter-question-1" style="display: none" onclick="sendStarterMessage('starter-question-1')">
-                    어떤 기능을 도와드릴까요?
+                    질문 제안 1
                 </button>
                 <button class="btn btn-outline-primary btn-sm" id="starter-question-2" style="display: none" onclick="sendStarterMessage('starter-question-2')">
-                    이 서비스 사용법을 알고 싶으신가요?
+                    질문 제안 2
                 </button>
             </div>
             <!-- 기존 입력창 -->
@@ -42,7 +46,13 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
+            loadChatHistory();
             sendDocument();
+
+            let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            let tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         })
 
         document.getElementById("chat-input").addEventListener("keydown", function(event) {
@@ -50,6 +60,8 @@
                 sendMessage();
             }
         });
+
+        document.getElementById("chat-trash-button").addEventListener("click", clearChatHistory);
     </script>
 </section>
 </body>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{learn/index}">
+<head>
+    <title th:text="${chord.name} + ' - 코드 상세보기'">코드 상세보기</title>
+</head>
+<body>
+<section layout:fragment="learn-content">
+    <div class="container mt-4">
+        <div class="learn-article">
+            <!-- 코드 이름을 제목으로 표시 -->
+            <h2 th:text="${chord.name}">Chord Name</h2>
+
+            <!-- 이미지와 오디오 플레이 버튼 나란히 배치 -->
+            <div class="d-flex align-items-center mt-3">
+                <!-- 코드 이미지 -->
+                <div class="chord-detail-image">
+                    <img th:src="${chord.imageUrl}" alt="Chord Image" style="max-width: 300px; height: auto; margin-right: 20px;" />
+                </div>
+
+                <!-- 오디오 플레이 버튼 -->
+                <div>
+                    <button type="button" class="audio-play-button btn btn-primary"
+                            th:data-audio-src="${chord.audioUrl}" onclick="playAudio(this)">
+                        ▶️
+                    </button>
+                </div>
+            </div>
+
+            <!-- 코드 설명 -->
+            <div class="chord-description mt-4">
+                <p th:text="${chord.description}">여기에 코드 설명이 표시됩니다.</p>
+            </div>
+
+            <h3 class="mt-5" th:text="${chord.name} + ' 코드, 어떻게 써먹을까?'"></h3>
+            <div class="mt-4">
+                <p>이 코드가 사용된 코드 진행(chord progression)을 둘러 보세요.</p>
+            </div>
+            <div class="progression-list">
+                <a th:href="@{/learn/progressions/{id}(id=${progression.id})}"
+                   th:each="progression : ${progressions}"
+                   class="progression-card-content d-flex justify-content-between align-items-center p-2 mb-2">
+                    <!-- 좌측: 코드 진행 이름 -->
+                    <div class="progression-name">
+                        <span th:utext="${progression.name}">Progression Name</span>
+                    </div>
+
+                    <!-- 우측: 오디오 플레이 버튼 -->
+                    <div class="progression-audio">
+                        <button type="button" class="audio-play-button btn btn-primary"
+                                th:data-audio-src="${progression.audioUrl}">
+                            ▶️
+                        </button>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div th:include="~{learn/knowledge::knowledge}"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioButtons = document.querySelectorAll(".audio-play-button");
+
+            audioButtons.forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    playAudio(this);
+                });
+            });
+        });
+    </script>
+</section>
+</body>
+</html>

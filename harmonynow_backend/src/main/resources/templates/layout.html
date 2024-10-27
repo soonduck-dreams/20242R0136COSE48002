@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
     <script th:src="@{/js/script.js}"></script>
     <style>
@@ -154,7 +155,7 @@
             margin-left: auto;
         }
 
-        .message.bot {
+        .message.assistant {
             background-color: #e2e3e5;
             color: black;
             align-self: flex-start;
@@ -185,9 +186,14 @@
             background-color: #0056b3;
         }
 
+        .trash-button {
+            color: white;
+            font-size: 18px;
+        }
+
         /* learn chord 페이지 chord list 관련 */
         .chord-list {
-            max-height: calc(100vh - 350px);
+            max-height: calc(100vh - 400px);
             overflow-y: auto; /* 세로 스크롤 */
             overflow-x: hidden; /* 가로 스크롤 막기 */
             border-top: 1px solid #ddd; /* 스타일 추가 */
@@ -248,6 +254,33 @@
         .audio-play-button:hover {
             background-color: #0056b3; /* 마우스 오버 시 살짝 어두운 색상 */
         }
+
+        /* chord detail 페이지 progression card */
+        .progression-card-content {
+            width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s; /* 애니메이션 효과 추가 */
+            text-decoration: none;
+            color: inherit; /* 텍스트 색상 유지 */
+        }
+
+        .progression-card-content:hover {
+            transform: scale(1.05); /* 마우스 오버 시 살짝 커지게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 마우스 오버 시 그림자 추가 */
+        }
+
+        .progression-name {
+            font-size: 16px;
+        }
+
+        .audio-play-button {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
 
     </style>
 </head>

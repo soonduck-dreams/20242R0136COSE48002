@@ -73,22 +73,22 @@ function getAllMessages() {
 
 function sendMessage() {
     const input = document.getElementById("chat-input");
-    const message = input.value.trim();
-    if (message === "") return;
+    const userMessage = input.value.trim();
+    if (userMessage === "") return;
 
     const learnMainContent = document.getElementById("learn-main-content").textContent.trim();
     const systemMessage = [
         {
             "role": "system",
-            "content": "You can refer to the following document to answer the user's question." + learnMainContent
+            "content": "The user is now seeing the following content. You can refer to the content to answer user's question:" + learnMainContent
         },
     ];
 
     // 사용자 메시지 UI에 추가
-    const userMessage = document.createElement("div");
-    userMessage.className = "message user";
-    userMessage.textContent = message;
-    document.getElementById("chat-content").appendChild(userMessage);
+    const userMessageDiv = document.createElement("div");
+    userMessageDiv.className = "message user";
+    userMessageDiv.textContent = userMessage;
+    document.getElementById("chat-content").appendChild(userMessageDiv);
 
     // 기존 메시지 배열 가져오기
     const allMessages = getAllMessages();
@@ -103,12 +103,14 @@ function sendMessage() {
     })
         .then(response => response.json())
         .then(data => {
-            const botMessage = document.createElement("div");
-            const messageContent = data.result[0].message.content; // 서버 응답 내용
-            botMessage.className = "message bot";
-            botMessage.innerHTML = messageContent.replace(/\n/g, "<br>");
-            chatContent.appendChild(botMessage);
+            const assistantMessageDiv = document.createElement("div");
+            const assistantMessage = data.result[0].message.content; // 서버 응답 내용
+            assistantMessageDiv.className = "message assistant";
+            assistantMessageDiv.innerHTML = assistantMessage.replace(/\n/g, "<br>");
+            chatContent.appendChild(assistantMessageDiv);
             chatContent.scrollTop = chatContent.scrollHeight;
+
+            saveChatHistory(userMessage, assistantMessage);
             sendDocument();
         });
 
@@ -161,6 +163,47 @@ function sendStarterMessage(starterButtonId) {
 
     inputField.value = starterButton.textContent; // 버튼 클릭 시 입력창에 미리 입력
     sendMessage(); // 전송
+}
+
+const initialAssistantMessage = [
+    {"role": "assistant", "content": "안녕! 학습하다가 모르는 거나 궁금한 거 있으면 물어봐. 내가 도와줄게."}
+]
+
+function saveChatHistory(userMessage, assistantMessage) {
+    let chatHistory = JSON.parse(sessionStorage.getItem("chatHistory")) || [...initialAssistantMessage];
+
+    chatHistory.push({ role: "user", content: userMessage });
+    chatHistory.push({ role: "assistant", content: assistantMessage });
+
+    sessionStorage.setItem("chatHistory", JSON.stringify(chatHistory));
+    console.log("hi");
+}
+
+function loadChatHistory() {
+    const chatHistory = JSON.parse(sessionStorage.getItem("chatHistory")) || [...initialAssistantMessage];
+
+    const chatContent = document.getElementById("chat-content");
+
+    chatHistory.forEach(entry => {
+        const messageElement = document.createElement("div");
+        messageElement.className = `message ${entry.role}`;
+        messageElement.innerHTML = entry.content.replace(/\n/g, "<br>");
+        chatContent.appendChild(messageElement);
+    });
+
+    chatContent.scrollTop = chatContent.scrollHeight;
+}
+
+function clearChatHistory() {
+    // 대화 내역 지우기
+    const chatContent = document.getElementById("chat-content");
+
+    chatContent.innerHTML = ""; // 화면에서 대화 내역 제거
+
+    // 세션 스토리지나 로컬 스토리지에서 저장된 대화 내역 삭제
+    sessionStorage.removeItem("chatHistory");
+
+    loadChatHistory();
 }
 
 /* 커스텀 플레이 버튼 */

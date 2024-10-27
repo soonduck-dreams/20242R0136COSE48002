@@ -7,6 +7,7 @@ import jhhan.harmonynow_backend.domain.Progression;
 import jhhan.harmonynow_backend.dto.ChordNameIdDTO;
 import jhhan.harmonynow_backend.dto.CreateProgressionDTO;
 import jhhan.harmonynow_backend.dto.EditProgressionDTO;
+import jhhan.harmonynow_backend.dto.ReadProgressionDTO;
 import jhhan.harmonynow_backend.repository.ChordProgressionMapRepository;
 import jhhan.harmonynow_backend.repository.ChordRepository;
 import jhhan.harmonynow_backend.repository.ProgressionRepository;
@@ -71,6 +72,26 @@ public class ProgressionService {
         return name;
     }
 
+    public String getProgressionName(Progression progression, Long chordId) {
+        List<ChordNameIdDTO> dtoList = chordRepository.findChordNameIdByProgressionId(progression.getId());
+
+        String name = "";
+        for (int i = 0; i < dtoList.size(); i++) {
+
+            if (dtoList.get(i).getId().equals(chordId)) {
+                name += "<strong>" + dtoList.get(i).getName() + "</strong>";
+            } else {
+                name += dtoList.get(i).getName();
+            }
+
+            if (i != dtoList.size() - 1) {
+                name += " - ";
+            }
+        }
+
+        return name;
+    }
+
     public List<Long> getChordIdsInProgression(Progression progression) {
         List<ChordNameIdDTO> dtoList = chordRepository.findChordNameIdByProgressionId(progression.getId());
 
@@ -80,6 +101,18 @@ public class ProgressionService {
         }
 
         return ids;
+    }
+
+    public List<ReadProgressionDTO> getProgressionsByChordId(Long chordId) {
+        Chord chord = chordRepository.findOne(chordId);
+        List<Progression> progressions = mapRepository.findProgressionsByChord(chord);
+
+        List<ReadProgressionDTO> dtoList = new ArrayList<>();
+        for (Progression p : progressions) {
+            dtoList.add(new ReadProgressionDTO(p.getId(), getProgressionName(p, chordId), p.getDescription(), p.getAudioUrl(), p.getSampleMidiUrl()));
+        }
+
+        return dtoList;
     }
 
     public void updateProgression(Long progressionId, EditProgressionDTO dto) {

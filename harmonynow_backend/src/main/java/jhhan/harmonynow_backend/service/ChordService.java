@@ -116,4 +116,9 @@ public class ChordService {
 
         return dtoList;
     }
+
+    public ReadChordDTO findChordById(Long chordId) {
+        Chord chord = chordRepository.findOne(chordId);
+        return new ReadChordDTO(chord);
+    }
 }

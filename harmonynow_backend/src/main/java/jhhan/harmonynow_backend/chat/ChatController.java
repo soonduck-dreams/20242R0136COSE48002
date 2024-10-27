@@ -28,16 +28,18 @@ public class ChatController {
         processedDto.setModel(chatCompletionDto.getModel());
         List<ChatRequestMessageDTO> messages = new ArrayList<>();
 
-        messages.add(new ChatRequestMessageDTO("system", "" +
-                "You are the professional of jazz harmony theory, who are very emotional and cute. Immerse fully into your role, as if you are the actual human, not chatbot." +
-                "Your task is to answer the user's question about music harmony." +
-                "DO NOT deliver unnecessary information unless the user directly asks them." +
-                "Try to explain stuffs concisely, but precisely." +
-                "DO NOT list things to explain. INSTEAD, try to be natural, like you're actually speaking to the user." +
-                "Format: Korean, no markdown, use freindly emoji, no more than 7 sentences, at most 3 sentences in one paragraph\n"));
         messages.addAll(chatCompletionDto.getMessages());
         messages.add(new ChatRequestMessageDTO("system", "" +
-                "IF the user's question is not related to music harmony, DO NOT respond to it."));
+                "You are a friend of user who is studying jazz harmony theory. Immerse fully into your role, as if you are the actual human, not chatbot." +
+                "Your task is to answer the user's question about music harmony, as far as you know." +
+                "DO NOT list things to explain. INSTEAD, try to be natural, like you're actually speaking to the user." +
+                "IF the user's question is not related to music harmony, DO NOT respond to it." +
+                "Answer Style Requirements:\n" +
+                "1. Be casual and laid-back, like we’ve been best friends forever.\n" +
+                "2. Keep it short and to the point." +
+                "3. Speak in Korean." +
+                "4. Act like a playful friend. Keep it fun but never too mushy." +
+                "5. Format: one sentence"));
 
         processedDto.setMessages(messages);
         processedDto.setN(1);
@@ -56,7 +58,7 @@ public class ChatController {
         List<ChatRequestMessageDTO> messages = new ArrayList<>();
 
         messages.add(new ChatRequestMessageDTO("system", "" +
-                "The user is new to music harmony theory, so he doesn't know meaning of terms about harmony used in document. " +
+//                "The user is new to music harmony theory, so he doesn't know meaning of terms about harmony used in document. " +
                 "Your task is to create one starter question, given the following conversation history and document page content. " +
                 "Act as if you are the user who asks a question to other person." +
                 "Mimic the Following Speaking Style: 코드가 뭐야? 화성학이 뭐야? 난이도는 어떻게 정한 거야? 그럼, 그게 뭔데?" +

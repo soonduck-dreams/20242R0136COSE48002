@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>knowledge fragment</title>
+</head>
+<body>
+<div th:fragment="knowledge">
+    <p style="display: none">
+        화음 = chord = 코드,
+        화성 = harmony
+        난이도의 기준: 초급에 다이어토닉 코드(diatonic chord), 중급에 세컨더리 도미넌트(secondary dominant), 고급에 자주 쓰이는 모달 인터체인지(modal interchange) 코드를 모았다.
+        다이어토닉 코드: 어떤 scale을 구성하고 있는 음들만 써서 만든 코드.
+        세컨더리 도미넌트: I를 제외한 다른 diatonic chord를 꾸며주기 위해 만들어진 dominant 7th chord로서, 각각의 diatonic chord의 root로부터 완전5도 위에 root를 가진 dominant 7th chord이다. 세컨더리 도미넌트 세븐이라고도 부름.
+        모달 인터체인지: 어떤 mode에서 만들어진 chord를 같은 tonic을 가진 다른 mode에서 빌려와 사용할 수 있는데, 이러한 chord를 모달 인터체인지 코드라고 한다.
+        <span th:if="${level == 'beginner'}">
+            현재 사용자는 초급 코드 목록 페이지를 보고 있다.
+        </span>
+        <span th:if="${level == 'intermediate'}">
+            현재 사용자는 중급 코드 목록 페이지를 보고 있다.
+        </span>
+        <span th:if="${level == 'advanced'}">
+            현재 사용자는 고급 코드 목록 페이지를 보고 있다.
+        </span>
+    </p>
+</div>
+</body>
+</html>

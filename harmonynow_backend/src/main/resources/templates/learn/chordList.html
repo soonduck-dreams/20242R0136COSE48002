@@ -15,6 +15,9 @@
             <p>
                 마음 가는 대로 탐색하고, 듣고, 느껴보세요.
             </p>
+            <p style="color: darkgray">
+                ※ 각 코드의 건반 이미지와 오디오는 C major key를 기준으로 든 예시입니다.
+            </p>
             <div class="d-flex justify-content-center">
                 <a href="/learn/chords?level=beginner" class="btn btn-outline-primary mx-2"
                    th:classappend="${level == 'beginner'} ? 'active'">초급</a>
@@ -24,12 +27,36 @@
                    th:classappend="${level == 'advanced'} ? 'active'">고급</a>
             </div>
 
+            <p>
+            <div th:if="${level == 'beginner'}">
+                <h3>초급 코드 둘러보기</h3>
+                <p>
+                    가장 기본적인 화음인 major scale에서의 다이어토닉 코드(diatonic chord)를 모아 놓았습니다.
+                </p>
+            </div>
+
+            <div th:if="${level == 'intermediate'}">
+                <h3>중급 코드 둘러보기</h3>
+                <p>
+                    V7를 확장해 다른 diatonic chord를 꾸며줄 수 있는 세컨더리 도미넌트 코드(secondary dominant)를 모아 놓았습니다.
+                </p>
+            </div>
+
+            <div th:if="${level == 'advanced'}">
+                <h3>고급 코드 둘러보기</h3>
+                <p>
+                    자주 쓰이는 모달 인터체인지(modal interchange) 코드를 모아 놓았습니다.
+                </p>
+            </div>
+            </p>
+
+
             <!-- 스크롤 영역 시작 -->
             <div class="chord-list mt-4">
                 <div class="d-flex flex-wrap justify-content-start">
                     <a th:each="chord : ${chordDtoList}"
                        class="chord-card m-2"
-                       th:href="@{/learn/chord/{id}(id=${chord.id})}">
+                       th:href="@{/learn/chords/{id}(id=${chord.id})}">
                         <div class="chord-card-content">
                             <!-- 상단: 이미지 -->
                             <div class="chord-image">
@@ -54,11 +81,7 @@
         </div>
     </div>
 
-    <p style="display: none">
-        화음 = chord = 코드,
-        화성 = harmony
-        난이도의 기준: 초급에 다이어토닉 코드(diatonic chord), 중급에 세컨더리 도미넌트(secondary dominant), 고급에 자주 쓰이는 모달 인터체인지(modal interchange) 코드를 모았다.
-    </p>
+    <div th:include="~{learn/knowledge::knowledge}" th:with="level=${level}"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
