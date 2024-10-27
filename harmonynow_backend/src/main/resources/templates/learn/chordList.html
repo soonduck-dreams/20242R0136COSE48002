@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{learn/index}">
+<head>
+    <title>학습하기</title>
+</head>
+<body>
+<section layout:fragment="learn-content">
+    <div class="container mt-4">
+        <div class="learn-article">
+            <h2>먼저, 배우고 싶은 코드를 찾아봅시다.</h2>
+            <p>
+                천 리 길도 한 걸음부터. 화성학 길도 코드부터. 세상에는 많은 코드(Chord, 화음)가 있습니다. 그 중에서도 중요한 것들을 난이도별로 추려 놓았어요.
+            </p>
+            <p>
+                마음 가는 대로 탐색하고, 듣고, 느껴보세요.
+            </p>
+            <div class="d-flex justify-content-center">
+                <a href="/learn/chords?level=beginner" class="btn btn-outline-primary mx-2"
+                   th:classappend="${level == 'beginner'} ? 'active'">초급</a>
+                <a href="/learn/chords?level=intermediate" class="btn btn-outline-primary mx-2"
+                   th:classappend="${level == 'intermediate'} ? 'active'">중급</a>
+                <a href="/learn/chords?level=advanced" class="btn btn-outline-primary mx-2"
+                   th:classappend="${level == 'advanced'} ? 'active'">고급</a>
+            </div>
+
+            <!-- 스크롤 영역 시작 -->
+            <div class="chord-list mt-4">
+                <div class="d-flex flex-wrap justify-content-start">
+                    <a th:each="chord : ${chordDtoList}"
+                       class="chord-card m-2"
+                       th:href="@{/learn/chord/{id}(id=${chord.id})}">
+                        <div class="chord-card-content">
+                            <!-- 상단: 이미지 -->
+                            <div class="chord-image">
+                                <img th:src="${chord.imageUrl}" alt="Chord Image" />
+                            </div>
+                            <!-- 좌하단: 코드 이름 -->
+                            <div class="chord-name">
+                                <span th:text="${chord.name}">Chord Name</span>
+                            </div>
+                            <!-- 우하단: 오디오 플레이 버튼 -->
+                            <div class="chord-audio">
+                                <button type="button" class="audio-play-button"
+                                        th:data-audio-src="${chord.audioUrl}">
+                                    ▶️
+                                </button>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <!-- 스크롤 영역 끝 -->
+        </div>
+    </div>
+
+    <p style="display: none">
+        화음 = chord = 코드,
+        화성 = harmony
+        난이도의 기준: 초급에 다이어토닉 코드(diatonic chord), 중급에 세컨더리 도미넌트(secondary dominant), 고급에 자주 쓰이는 모달 인터체인지(modal interchange) 코드를 모았다.
+    </p>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioButtons = document.querySelectorAll(".audio-play-button");
+
+            audioButtons.forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    playAudio(this);
+                });
+            });
+        });
+    </script>
+</section>
+</body>
+</html>

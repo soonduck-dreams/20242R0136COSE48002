@@ -19,25 +19,9 @@
                     </li>
 
                     <!-- 학습하기 Dropdown -->
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle [[${currentUri.startsWith('/chords') ? 'active' : ''}]]"
-                           href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            학습하기
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li>
-                                <a th:class="'dropdown-item' + (${currentUri == '/chords/beginner' ? ' active' : ''})"
-                                   href="/chords/beginner">초급</a>
-                            </li>
-                            <li>
-                                <a th:class="'dropdown-item' + (${currentUri == '/chords/intermediate' ? ' active' : ''})"
-                                   href="/chords/intermediate">중급</a>
-                            </li>
-                            <li>
-                                <a th:class="'dropdown-item' + (${currentUri == '/chords/advanced' ? ' active' : ''})"
-                                   href="/chords/advanced">고급</a>
-                            </li>
-                        </ul>
+                    <li class="nav-item">
+                        <a th:class="'nav-link' + (${currentUri.startsWith('/learn') ? ' active' : ''})"
+                           href="/learn">학습하기</a>
                     </li>
 
                     <!-- 관리자 -->

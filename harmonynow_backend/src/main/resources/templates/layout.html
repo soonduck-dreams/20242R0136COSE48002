@@ -57,9 +57,27 @@
             overflow-y: auto;
         }
 
-        /* 본문 영역 스타일 */
+        .chat-sidebar {
+            width: 30%;
+            background-color: #f8f9fa;
+            position: fixed;
+            top: 56px; /* 헤더 바로 아래 */
+            bottom: 0px; /* 푸터 바로 위 */
+            right: 0;
+            overflow-y: auto;
+        }
+
+        /* 관리자 페이지 본문 영역 스타일 */
         .main-content {
             margin-left: 150px; /* 사이드바 너비만큼 왼쪽으로 이동 */
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px; /* 내용 패딩 */
+        }
+
+        /* 학습하기 페이지 본문 영역 스타일 */
+        .learn-main-content {
+            margin-right: 30%;
             flex: 1;
             overflow-y: auto;
             padding: 20px; /* 내용 패딩 */
@@ -84,6 +102,151 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             max-width: 0;
+        }
+
+        .learn-article > h2 {
+            margin-bottom: 20px;
+        }
+
+        .learn-article > p {
+            margin-bottom: 5px;
+            text-indent: 10px;
+        }
+
+        /* 채팅 UI 관련 */
+        .chat-container {
+            height: 100%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-header {
+            background-color: #353535;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 8px;
+            border-radius: 5px;
+            max-width: 75%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background-color: #007bff;
+            color: white;
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .message.bot {
+            background-color: #e2e3e5;
+            color: black;
+            align-self: flex-start;
+        }
+
+        .chat-input {
+            display: flex;
+            border-top: 1px solid #ccc;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .chat-input button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .chat-input button:hover {
+            background-color: #0056b3;
+        }
+
+        /* learn chord 페이지 chord list 관련 */
+        .chord-list {
+            max-height: calc(100vh - 350px);
+            overflow-y: auto; /* 세로 스크롤 */
+            overflow-x: hidden; /* 가로 스크롤 막기 */
+            border-top: 1px solid #ddd; /* 스타일 추가 */
+            padding-top: 10px; /* 위에 살짝 공간 주기 */
+        }
+
+        .chord-card {
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background-color: #f9f9f9;
+            text-decoration: none; /* 링크 기본 스타일 제거 */
+            color: inherit; /* 텍스트 색상 유지 */
+            transition: transform 0.2s, box-shadow 0.2s; /* 애니메이션 효과 추가 */
+        }
+
+        .chord-card:hover {
+            transform: scale(1.05); /* 마우스 오버 시 살짝 커지게 */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 마우스 오버 시 그림자 추가 */
+        }
+
+        .chord-image img {
+            width: 100%;
+            height: auto;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 5px;
+        }
+
+        .chord-name {
+            width: 100%;
+            text-align: left;
+            font-weight: bold;
+            padding: 5px;
+        }
+
+        .chord-audio {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .audio-play-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            padding: 5px 8px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .audio-play-button:hover {
+            background-color: #0056b3; /* 마우스 오버 시 살짝 어두운 색상 */
         }
 
     </style>

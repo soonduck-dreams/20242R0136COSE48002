@@ -1,8 +1,10 @@
 package jhhan.harmonynow_backend.service;
 
 import jhhan.harmonynow_backend.domain.Chord;
+import jhhan.harmonynow_backend.domain.Level;
 import jhhan.harmonynow_backend.dto.CreateChordDTO;
 import jhhan.harmonynow_backend.dto.EditChordDTO;
+import jhhan.harmonynow_backend.dto.ReadChordDTO;
 import jhhan.harmonynow_backend.exception.ChordNotDeletableException;
 import jhhan.harmonynow_backend.repository.ChordProgressionMapRepository;
 import jhhan.harmonynow_backend.repository.ChordRepository;
@@ -13,14 +15,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class ChordService {
 
     private final ChordRepository chordRepository;
     private final ChordProgressionMapRepository mapRepository;
 
+    @Transactional
     public void saveChord(CreateChordDTO dto) {
         Chord chord = Chord.createChord(dto);
         Long savedId = chordRepository.save(chord);
@@ -40,6 +46,7 @@ public class ChordService {
         }
     }
 
+    @Transactional
     public void updateChord(Long chordId, EditChordDTO dto) {
         Chord chord = chordRepository.findOne(chordId);
         chord.updateChord(dto);
@@ -74,6 +81,7 @@ public class ChordService {
         }
     }
 
+    @Transactional
     public void deleteChord(Long chordId) {
         Chord chord = chordRepository.findOne(chordId);
 
@@ -90,5 +98,22 @@ public class ChordService {
         }
 
         chordRepository.delete(chordId);
+    }
+
+    public List<ReadChordDTO> findPublicChordsByLevel(String displayLevel) {
+        Level level = switch (displayLevel) {
+            case "beginner" -> Level.B;
+            case "intermediate" -> Level.C;
+            case "advanced" -> Level.D;
+            default -> Level.B;
+        };
+
+        List<Chord> chordList = chordRepository.findPublicChordsByLevel(level);
+        List<ReadChordDTO> dtoList = new ArrayList<>();
+        for (Chord chord : chordList) {
+            dtoList.add(new ReadChordDTO(chord));
+        }
+
+        return dtoList;
     }
 }

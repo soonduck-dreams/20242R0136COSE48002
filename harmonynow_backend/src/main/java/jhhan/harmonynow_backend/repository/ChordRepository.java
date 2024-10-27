@@ -2,6 +2,7 @@ package jhhan.harmonynow_backend.repository;
 
 import jakarta.persistence.EntityManager;
 import jhhan.harmonynow_backend.domain.Chord;
+import jhhan.harmonynow_backend.domain.Level;
 import jhhan.harmonynow_backend.dto.ChordNameIdDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -26,6 +27,12 @@ public class ChordRepository {
 
     public List<Chord> findAll() {
         return em.createQuery("select c from Chord c", Chord.class).getResultList();
+    }
+
+    public List<Chord> findPublicChordsByLevel(Level level) {
+        return em.createQuery("select c from Chord c where c.level = :level and c.isPublic = true", Chord.class)
+                .setParameter("level", level)
+                .getResultList();
     }
 
     // 특정 Progression에 포함된 각 Chord를 순서대로 조회

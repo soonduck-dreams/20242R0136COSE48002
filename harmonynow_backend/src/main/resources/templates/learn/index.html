@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<head>
+    <title>학습하기</title>
+</head>
+<body>
+<section layout:fragment="content">
+    <!-- 사이드바 시작 -->
+    <div class="chat-sidebar shadow-lg">
+        <div class="chat-container">
+            <div class="chat-header">
+                질문하기
+            </div>
+            <div class="chat-messages" id="chat-content">
+            </div>
+            <!-- 스타터 질문 버튼 추가 -->
+            <div class="chat-starter-questions d-flex justify-content-around p-2">
+                <button class="btn btn-outline-primary btn-sm" id="starter-question-1" style="display: none" onclick="sendStarterMessage('starter-question-1')">
+                    어떤 기능을 도와드릴까요?
+                </button>
+                <button class="btn btn-outline-primary btn-sm" id="starter-question-2" style="display: none" onclick="sendStarterMessage('starter-question-2')">
+                    이 서비스 사용법을 알고 싶으신가요?
+                </button>
+            </div>
+            <!-- 기존 입력창 -->
+            <div class="chat-input">
+                <input type="text" id="chat-input" placeholder="여기에 질문을 입력하세요..." />
+                <button onclick="sendMessage()">전송</button>
+            </div>
+        </div>
+    </div>
+    <!-- 사이드바 끝 -->
+
+    <!-- 본문 영역 시작 -->
+    <main class="learn-main-content" id="learn-main-content">
+        <div layout:fragment="learn-content">
+
+        </div>
+    </main>
+    <!-- 본문 영역 끝 -->
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            sendDocument();
+        })
+
+        document.getElementById("chat-input").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                sendMessage();
+            }
+        });
+    </script>
+</section>
+</body>
+</html>
