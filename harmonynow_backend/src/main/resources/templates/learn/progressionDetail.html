@@ -8,9 +8,8 @@
 <section layout:fragment="learn-content">
     <div class="container mt-4">
         <div class="learn-article">
-            <h2 th:text="${progression.name}">Progression Name</h2>
-
-            <div class="mt-3">
+            <div style="display: flex; align-items: center;">
+                <h2 th:text="${progression.name}" style="margin-right: 10px;">Progression Name</h2>
                 <button type="button" class="audio-play-button btn btn-primary"
                         th:data-audio-src="${progression.audioUrl}" onclick="playAudio(this)">
                     ▶️

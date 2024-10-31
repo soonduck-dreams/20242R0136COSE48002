@@ -208,8 +208,28 @@ function clearChatHistory() {
 }
 
 /* 커스텀 플레이 버튼 */
+let activeAudio = null;
+
 function playAudio(button) {
+    if (activeAudio && !activeAudio.paused) {
+        activeAudio.pause();
+        activeAudio.currentTime = 0;
+    }
+
     const audioSrc = button.getAttribute('data-audio-src');
-    let audio = new Audio(audioSrc);
-    audio.play();
+    activeAudio = new Audio(audioSrc);
+    activeAudio.play();
+}
+
+function stopAllAudio() {
+    // 모든 오디오 요소를 찾음
+    const audioElements = document.querySelectorAll('audio');
+
+    // 각 오디오 요소를 순회하며 재생 중인 오디오를 멈춤
+    audioElements.forEach(audio => {
+        if (!audio.paused) { // 재생 중인 오디오만 멈춤
+            audio.pause();
+            audio.currentTime = 0; // 재생 위치를 처음으로 리셋
+        }
+    });
 }
