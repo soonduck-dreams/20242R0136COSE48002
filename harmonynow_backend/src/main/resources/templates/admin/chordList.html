@@ -7,11 +7,11 @@
         /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
         .col-id { width: 2%; }
         .col-name { width: 10%; }
-        .col-description { width: 32%; }
+        .col-description { width: 37%; }
         .col-level { width: 8%; }
         .col-public { width: 8%; }
         .col-image { width: 15%; }
-        .col-audio { width: 15%; }
+        .col-audio { width: 10%; }
         .col-edit { width: 5%; }
         .col-delete { width: 5%; }
     </style>
@@ -60,10 +60,12 @@
                          th:src="@{${chord.imageUrl}}" alt="Chord Image" style="width: 100%;">
                 </td>
                 <td class="col-audio">
-                    <audio class="compact-audio" th:if="${chord.audioUrl != null and !chord.audioUrl.isEmpty()}" controls>
-                        <source th:src="@{${chord.audioUrl}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div th:if="${chord.audioUrl != null and !chord.audioUrl.isEmpty()}">
+                        <button type="button" class="audio-play-button"
+                                th:data-audio-src="${chord.audioUrl}">
+                            ▶️
+                        </button>
+                    </div>
                 </td>
                 <td class="col-edit">
                     <a class="btn btn-warning btn-sm" th:href="@{/admin/chords/edit/{id}(id=${chord.id})}">수정</a>
@@ -81,6 +83,20 @@
     <script th:if="${errorMessage}">
         document.addEventListener('DOMContentLoaded', function () {
             showToastMessage('liveToast');
+        });
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const audioButtons = document.querySelectorAll(".audio-play-button");
+
+            audioButtons.forEach(button => {
+                button.addEventListener("click", function(event) {
+                    event.stopPropagation();
+                    event.preventDefault();
+                    playAudio(this);
+                });
+            });
         });
     </script>
 </section>
