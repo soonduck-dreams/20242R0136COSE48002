@@ -23,7 +23,7 @@ public class ProgressionRepository {
     }
 
     public List<Progression> findAll() {
-        return em.createQuery("select p from Progression p", Progression.class).getResultList();
+        return em.createQuery("select p from Progression p order by p.id", Progression.class).getResultList();
     }
 
     public void delete(Long progressionId) {

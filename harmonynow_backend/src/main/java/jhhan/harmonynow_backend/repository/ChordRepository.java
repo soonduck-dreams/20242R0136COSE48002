@@ -27,7 +27,7 @@ public class ChordRepository {
     }
 
     public List<Chord> findAll() {
-        return em.createQuery("select c from Chord c", Chord.class).getResultList();
+        return em.createQuery("select c from Chord c ORDER BY c.id", Chord.class).getResultList();
     }
 
     public List<Chord> findPublicChordsByLevel(Level level) {
