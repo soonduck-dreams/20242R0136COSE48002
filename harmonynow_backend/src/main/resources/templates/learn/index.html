@@ -6,12 +6,11 @@
 </head>
 <body>
 <section layout:fragment="content">
-    <!-- 사이드바 시작 -->
+    <!-- 채팅 UI (질문하기) 시작 -->
     <div class="chat-sidebar shadow-lg">
         <div class="chat-container">
             <div class="chat-header d-flex justify-content-between align-items-center">
                 <span>질문하기</span>
-                <!-- 우상단에 휴지통 아이콘 추가 -->
                 <button class="btn p-0 trash-button" id="chat-trash-button" data-bs-toggle="tooltip" title="대화 내역 삭제">
                     <i class="fas fa-trash-alt"></i>
                 </button>
@@ -27,22 +26,18 @@
                     질문 제안 2
                 </button>
             </div>
-            <!-- 기존 입력창 -->
             <div class="chat-input">
                 <input type="text" id="chat-input" placeholder="여기에 질문을 입력하세요..." />
                 <button onclick="sendMessage()">전송</button>
             </div>
         </div>
     </div>
-    <!-- 사이드바 끝 -->
 
-    <!-- 본문 영역 시작 -->
     <main class="learn-main-content" id="learn-main-content">
         <div layout:fragment="learn-content">
 
         </div>
     </main>
-    <!-- 본문 영역 끝 -->
 
 
     <script>
