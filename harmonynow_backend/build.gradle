@@ -47,6 +47,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect
 	implementation group: 'nz.net.ultraq.thymeleaf', name: 'thymeleaf-layout-dialect', version: '3.2.0'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+	implementation 'me.paulschwarz:spring-dotenv:3.0.0'
+
+	implementation 'org.flywaydb:flyway-core'
+
 }
 
 tasks.named('test') {
