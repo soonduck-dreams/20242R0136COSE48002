@@ -41,10 +41,6 @@ public class Chord {
     @Column(columnDefinition = "TEXT")
     private String audioUrl;
 
-    @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "member_id")
-    private Member member;
-
     @OneToMany(mappedBy = "chord")
     private List<ChordProgressionMap> maps = new ArrayList<>();
 
@@ -57,7 +53,6 @@ public class Chord {
         chord.description = dto.getDescription();
         chord.level = dto.getLevel();
         chord.isPublic = dto.getIsPublic();
-        chord.member = dto.getMember();
         return chord;
     }
 
@@ -66,7 +61,6 @@ public class Chord {
         description = dto.getDescription();
         level = dto.getLevel();
         isPublic = dto.getIsPublic();
-        member = dto.getMember();
     }
 
 }

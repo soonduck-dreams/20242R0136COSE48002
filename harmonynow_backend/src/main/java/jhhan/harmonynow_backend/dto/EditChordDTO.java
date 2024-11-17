@@ -2,7 +2,6 @@ package jhhan.harmonynow_backend.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jhhan.harmonynow_backend.domain.Level;
-import jhhan.harmonynow_backend.domain.Member;
 import jhhan.harmonynow_backend.validation.ValidFileExtension;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,8 +32,6 @@ public class EditChordDTO {
 
     @ValidFileExtension(extensions = {"mp3", "wav"}, message = "오디오 파일 형식은 mp3, wav만 가능합니다.")
     private MultipartFile audioFile; // Request
-
-    private Member member;
 
     public EditChordDTO(Long id, String name, String description, Level level, Boolean isPublic, String imageUrl, String audioUrl) {
         this.id = id;
