@@ -21,7 +21,7 @@ public class FileUtils {
     private FileUtils() {}
 
     @Getter
-    private static String fileCommonPath;
+    private static String targetBasePath;
 
     private final static String[] imageExtensions = {"jpg", "jpeg", "png"};
     private final static String[] audioExtensions = {"mp3", "wav"};
@@ -29,7 +29,7 @@ public class FileUtils {
 
     @Autowired
     public FileUtils(Environment env) {
-        FileUtils.fileCommonPath = env.getProperty("file.path");
+        FileUtils.targetBasePath = env.getProperty("file.target-base-path");
     }
 
     public static String saveImageIfExists(MultipartFile file, String folder, Long fileName) throws IOException {
@@ -61,7 +61,7 @@ public class FileUtils {
             throw new IllegalArgumentException("허용되지 않은 파일 형식입니다: " + fileExtension);
         }
 
-        String filePath = Paths.get(fileCommonPath, "uploads", folder, fileName + "." + fileExtension).toString();
+        String filePath = Paths.get(targetBasePath, folder, fileName + "." + fileExtension).toString();
 
         try {
             file.transferTo(new File(filePath));
@@ -94,7 +94,8 @@ public class FileUtils {
             return false;
         }
 
-        File file = new File(getFileCommonPath() + filePath);
+        String adjustedFilePath = filePath.replaceAll("^/+", "").replaceAll("^uploads/+","");
+        File file = new File(Paths.get(targetBasePath, adjustedFilePath).toString());
 
         // 파일이 존재할 경우 삭제 시도
         if (file.exists()) {
@@ -115,4 +116,20 @@ public class FileUtils {
             return false;
         }
     }
+
+    public static File getFile(String filePath) {
+        if (filePath == null || filePath.isEmpty()) {
+            throw new IllegalArgumentException("유효하지 않은 파일 경로입니다.");
+        }
+
+        String adjustedFilePath = filePath.replaceAll("^/+", "").replaceAll("^uploads/+","");
+        File file = new File(Paths.get(targetBasePath, adjustedFilePath).toString());
+
+        if (!file.exists() || !file.isFile()) {
+            throw new IllegalArgumentException("파일이 존재하지 않거나 파일이 아닙니다: " + filePath);
+        }
+
+        return file;
+    }
+
 }
