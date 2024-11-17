@@ -80,7 +80,7 @@
         document.getElementById("generate-music-button").addEventListener("click", function() {
             const progressionId = this.getAttribute("data-progression-id");
 
-            fetch(`/api/learn/progressions/${progressionId}/generate-music`, {  // 수정된 엔드포인트
+            fetch(`/api/learn/progressions/${progressionId}/generate-music`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
