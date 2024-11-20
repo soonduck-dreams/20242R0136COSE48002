@@ -30,4 +30,11 @@ public class ProgressionRepository {
         Progression progression = findOne(progressionId);
         em.remove(progression);
     }
+
+    public List<Progression> findAllWithSampleMidi() {
+        return em.createQuery(
+                "select p from Progression p where p.sampleMidiUrl is not null and p.sampleMidiUrl <> '' order by p.id",
+                Progression.class
+        ).getResultList();
+    }
 }

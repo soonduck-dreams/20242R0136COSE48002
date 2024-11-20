@@ -45,7 +45,7 @@ public class DummyfileCopier implements CommandLineRunner {
                     Path targetPath = targetDir.resolve(resource.getFilename());
                     Files.createDirectories(targetDir); // 타겟 디렉토리 생성
                     Files.copy(resource.getInputStream(), targetPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
-                    System.out.println("Copied: " + resource.getFilename());
+//                    System.out.println("Copied: " + resource.getFilename());
                 } catch (IOException e) {
                     System.err.println("Failed to copy " + resource.getFilename() + ": " + e.getMessage());
                 }

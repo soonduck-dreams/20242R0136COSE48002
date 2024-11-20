@@ -1,6 +1,5 @@
 package jhhan.harmonynow_backend.service;
 
-import jakarta.validation.Valid;
 import jhhan.harmonynow_backend.domain.Chord;
 import jhhan.harmonynow_backend.domain.ChordProgressionMap;
 import jhhan.harmonynow_backend.domain.Progression;
@@ -16,8 +15,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +28,7 @@ public class ProgressionService {
     private final ProgressionRepository progressionRepository;
     private final ChordRepository chordRepository;
     private final ChordProgressionMapRepository mapRepository;
+    private final FileUtils fileUtils;
 
     @Transactional
     public void saveProgression(CreateProgressionDTO dto) {
@@ -195,5 +197,23 @@ public class ProgressionService {
         }
 
         progressionRepository.delete(progressionId);
+    }
+
+    public File getProgressionSampleMidi(Long progressionId) {
+        Progression progression = progressionRepository.findOne(progressionId);
+
+        return FileUtils.getFile(progression.getSampleMidiUrl());
+    }
+
+    public Long getRandomProgressionIdWithSampleMidi() {
+        List<Progression> progressions = progressionRepository.findAllWithSampleMidi();
+
+        if (progressions.isEmpty()) {
+            throw new IllegalStateException("No progressions found in the repository");
+        }
+
+        Random random = new Random();
+        int randomIndex = random.nextInt(progressions.size());
+        return progressions.get(randomIndex).getId();
     }
 }

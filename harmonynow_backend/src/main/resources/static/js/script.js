@@ -233,3 +233,114 @@ function stopAllAudio() {
         }
     });
 }
+
+
+/* 음악 생성 기능 - 폴링 */
+function pollForResult(taskId) {
+    const endpoint = `/api/learn/progressions/generate-music-result/${taskId}`;
+    const interval = 3000; // 3초 간격으로 폴링
+
+    const intervalId = setInterval(() => {
+        fetch(endpoint, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(response => {
+                if (response.status === 202) {
+                    console.log("Task still in progress...");
+                    return null; // 아직 완료되지 않음
+                }
+                if (response.status === 500) {
+                    console.error("Task failed!");
+                    clearInterval(intervalId);
+                    return null;
+                }
+                if (response.ok) {
+                    return response.blob(); // 완료된 파일 데이터 가져오기
+                }
+            })
+            .then(blob => {
+                if (blob) {
+                    clearInterval(intervalId);
+                    const url = window.URL.createObjectURL(blob);
+                    document.getElementById("generate-music-loading-spinner").style.display = "none";
+
+                    document.getElementById("generate-music-button").innerText = "더 만들어봐!";
+                    document.getElementById("generate-music-button").style.display = "inline";
+
+                    processZip(blob);
+                }
+            })
+            .catch(error => {
+                alert("음악 생성에 실패했습니다.")
+
+                document.getElementById("generate-music-loading-spinner").style.display = "none";
+                document.getElementById("generate-music-button").innerText = "다시 시도";
+
+                clearInterval(intervalId);
+            });
+    }, interval);
+}
+
+async function processZip(zipBlob) {
+    const jszip = new JSZip();
+
+    // ZIP 파일 읽기
+    const zip = await jszip.loadAsync(zipBlob);
+
+    // 결과 표시 영역
+    const resultContainer = document.createElement("div");
+    resultContainer.classList.add("generated-results");
+    document.querySelector(".generate-music-result-container").appendChild(resultContainer);
+
+    // ZIP 파일 내용 처리
+    const files = Object.entries(zip.files);
+
+    // 파일을 WAV → MIDI 순으로 정렬
+    const sortedFiles = files.sort(([filenameA], [filenameB]) => {
+        if (filenameA.endsWith(".wav")) return -1;
+        if (filenameB.endsWith(".wav")) return 1;
+        return 0;
+    });
+
+    // WAV, MIDI 각각 표시
+    const resultBox = document.createElement("div"); // 결과 박스 컨테이너
+    resultBox.classList.add("result-box"); // 스타일링용 클래스
+
+    // 오디오와 다운로드 버튼을 담을 컨테이너 생성
+    const contentContainer = document.createElement("div");
+    contentContainer.classList.add("content-container");
+
+    for (const [filename, file] of sortedFiles) {
+        if (filename.endsWith(".wav")) {
+            // WAV 파일 처리
+            const audioBlob = await file.async("blob");
+            const audioUrl = URL.createObjectURL(audioBlob);
+
+            const audioPlayer = document.createElement("audio");
+            audioPlayer.controls = true;
+            audioPlayer.src = audioUrl;
+            audioPlayer.style.display = "inline";
+
+            contentContainer.appendChild(audioPlayer);
+        } else if (filename.endsWith(".mid")) {
+            // MIDI 파일 처리
+            const midiBlob = await file.async("blob");
+            const midiUrl = URL.createObjectURL(midiBlob);
+
+            const downloadLink = document.createElement("a");
+            downloadLink.classList.add("btn");
+            downloadLink.classList.add("btn-primary");
+            downloadLink.href = midiUrl;
+            downloadLink.download = filename;
+            downloadLink.textContent = `💾 MIDI 파일 다운로드`;
+
+            contentContainer.appendChild(downloadLink);
+        }
+    }
+
+    resultBox.appendChild(contentContainer); // 결과 박스에 컨텐츠 컨테이너 추가
+    resultContainer.appendChild(resultBox); // 결과 컨테이너에 박스 추가
+}

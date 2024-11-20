@@ -53,11 +53,23 @@
                 <p>만들어 볼까요?</p>
 
                 <div class="mt-3">
-                    <button type="button" class="btn btn-success" id="generate-music-button"
-                            th:data-progression-id="${progression.id}">
-                        만들어봐!
-                    </button>
+                    <div class="generate-music-result-container">
+
+                    </div>
+                    <div id="generate-music-loading-spinner" style="display: none;">
+                            <span class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </span>
+                        <span class="loading-text">음악을 만들고 있어요...</span>
+                    </div>
+                    <p>
+                        <button type="button" class="btn btn-success" id="generate-music-button"
+                                th:data-progression-id="${progression.id}">
+                            만들어봐!
+                        </button>
+                    </p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -80,7 +92,12 @@
         document.getElementById("generate-music-button").addEventListener("click", function() {
             const progressionId = this.getAttribute("data-progression-id");
 
-            fetch(`/api/learn/progressions/${progressionId}/generate-music`, {
+            const spinner = document.getElementById("generate-music-loading-spinner");
+            spinner.style.display = "inline-block";
+
+            document.getElementById("generate-music-button").style.display = "none";
+
+            fetch(`/api/learn/progressions/generate-music/${progressionId}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -89,10 +106,14 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log("Task ID:", data.task_id);
-                    // Task ID를 사용해 폴링 등의 작업 시작
+                    const taskId = data.task_id;
+
+                    pollForResult(taskId);
                 })
                 .catch(error => console.error("Error:", error));
         });
+
+
 
 
     </script>
