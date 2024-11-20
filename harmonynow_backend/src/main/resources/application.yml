@@ -42,3 +42,6 @@ openai:
 
 model-server:
   url: ${MODEL_SERVER_URL}
+
+admin:
+  code: ${ADMIN_CODE}

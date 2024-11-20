@@ -26,7 +26,7 @@
 
                     <!-- 관리자 -->
                     <li class="nav-item">
-                        <a th:class="'nav-link' + (${currentUri.startsWith('/admin') ? ' active' : ''})"
+                        <a th:class="'nav-link' + (${session.isAdmin} ? (${currentUri.startsWith('/admin') ? ' active' : ''}) : ' hide')"
                            href="/admin">관리자</a>
                     </li>
                 </ul>
