@@ -1,5 +1,7 @@
 package jhhan.harmonynow_backend.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jhhan.harmonynow_backend.validation.ValidChordIds;
 import jhhan.harmonynow_backend.validation.ValidFileExtension;
 import lombok.Getter;
@@ -14,6 +16,9 @@ public class CreateProgressionDTO {
 
     @ValidChordIds
     private List<Long> chordIds;
+
+    @NotNull(message = "종지 여부는 필수 항목입니다.")
+    private Boolean isCadence;
 
     private String description;
 

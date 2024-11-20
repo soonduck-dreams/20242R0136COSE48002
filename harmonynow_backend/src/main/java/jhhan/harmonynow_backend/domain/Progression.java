@@ -29,16 +29,21 @@ public class Progression {
     @Column(columnDefinition = "TEXT")
     private String sampleMidiUrl;
 
+    @Column(nullable = false)
+    private Boolean isCadence;
+
     @OneToMany(mappedBy = "progression", cascade = CascadeType.REMOVE)
     private List<ChordProgressionMap> maps = new ArrayList<>();
 
     public static Progression CreateProgression(CreateProgressionDTO dto) {
         Progression progression = new Progression();
         progression.description = dto.getDescription();
+        progression.isCadence = dto.getIsCadence();
         return progression;
     }
 
     public void updateProgression(EditProgressionDTO dto) {
         this.description = dto.getDescription();
+        this.isCadence = dto.getIsCadence();
     }
 }

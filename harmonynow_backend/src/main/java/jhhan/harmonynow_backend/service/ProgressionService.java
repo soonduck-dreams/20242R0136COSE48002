@@ -112,7 +112,7 @@ public class ProgressionService {
 
         List<ReadProgressionDTO> dtoList = new ArrayList<>();
         for (Progression p : progressions) {
-            dtoList.add(new ReadProgressionDTO(p.getId(), getProgressionName(p, chordId), p.getDescription(), p.getAudioUrl(), p.getSampleMidiUrl()));
+            dtoList.add(new ReadProgressionDTO(p.getId(), getProgressionName(p, chordId), p.getDescription(), p.getAudioUrl(), p.getSampleMidiUrl(), p.getIsCadence()));
         }
 
         return dtoList;
@@ -121,7 +121,7 @@ public class ProgressionService {
     public ReadProgressionDTO getProgressionById(Long progressionId, boolean isSampleMidiUrlNeeded) {
         Progression progression = progressionRepository.findOne(progressionId);
         return new ReadProgressionDTO(progression.getId(), getProgressionName(progression), progression.getDescription(), progression.getAudioUrl(),
-                isSampleMidiUrlNeeded ? progression.getSampleMidiUrl() : null);
+                isSampleMidiUrlNeeded ? progression.getSampleMidiUrl() : null, progression.getIsCadence());
     }
 
     @Transactional
@@ -205,8 +205,8 @@ public class ProgressionService {
         return FileUtils.getFile(progression.getSampleMidiUrl());
     }
 
-    public Long getRandomProgressionIdWithSampleMidi() {
-        List<Progression> progressions = progressionRepository.findAllWithSampleMidi();
+    public Long getRandomCadenceProgressionIdWithSampleMidi() {
+        List<Progression> progressions = progressionRepository.findAllCadenceProgressionsWithSampleMidi();
 
         if (progressions.isEmpty()) {
             throw new IllegalStateException("No progressions found in the repository");

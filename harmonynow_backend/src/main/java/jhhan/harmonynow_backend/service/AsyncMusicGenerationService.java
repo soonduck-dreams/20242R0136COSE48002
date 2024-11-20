@@ -29,7 +29,7 @@ public class AsyncMusicGenerationService {
 
         try {
             File introFile = progressionService.getProgressionSampleMidi(progressionId);
-            File outroFile = progressionService.getProgressionSampleMidi(progressionService.getRandomProgressionIdWithSampleMidi());
+            File outroFile = progressionService.getProgressionSampleMidi(progressionService.getRandomCadenceProgressionIdWithSampleMidi());
 
             MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
             body.add("intro_file", new FileSystemResource(introFile));

@@ -7,7 +7,8 @@
         /* 각 열의 상대적 길이를 설정할 수 있는 클래스 */
         .col-id { width: 2%; }
         .col-name { width: 20%; }
-        .col-description { width: 48%; }
+        .col-description { width: 40%; }
+        .col-cadence { width: 8%; }
         .col-audio { width: 10%; }
         .col-midi { width: 10%; }
         .col-edit { width: 5%; }
@@ -26,6 +27,7 @@
                 <th class="col-id">ID</th>
                 <th class="col-name">이름</th>
                 <th class="col-description">설명</th>
+                <th class="col-cadence">종지 여부</th>
                 <th class="col-audio">오디오</th>
                 <th class="col-midi">MIDI</th>
                 <th class="col-edit"></th>
@@ -37,11 +39,12 @@
                 <td class="col-id" th:text="${progression.id}"></td>
                 <td class="col-name" th:text="${progression.name}"></td>
                 <td class="col-description truncate" th:text="${progression.description}"></td>
+                <td class="col-cadence" th:text="${progression.displayIsCadence}"></td>
                 <td class="col-audio">
                     <div th:if="${progression.audioUrl != null and !progression.audioUrl.isEmpty()}">
                         <button type="button" class="audio-play-button"
                                 th:data-audio-src="@{${progression.audioUrl}}">
-                            ▶️
+                            ▶
                         </button>
                     </div>
                 </td>

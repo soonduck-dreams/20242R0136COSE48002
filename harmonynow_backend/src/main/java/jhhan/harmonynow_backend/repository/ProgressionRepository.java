@@ -31,9 +31,9 @@ public class ProgressionRepository {
         em.remove(progression);
     }
 
-    public List<Progression> findAllWithSampleMidi() {
+    public List<Progression> findAllCadenceProgressionsWithSampleMidi() {
         return em.createQuery(
-                "select p from Progression p where p.sampleMidiUrl is not null and p.sampleMidiUrl <> '' order by p.id",
+                "select p from Progression p where p.sampleMidiUrl is not null and p.sampleMidiUrl <> '' and p.isCadence order by p.id",
                 Progression.class
         ).getResultList();
     }

@@ -37,6 +37,14 @@
         <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
       </div>
 
+      <div class="mb-3">
+        <label>종지(Cadence) 여부</label>
+        <select th:field="*{isCadence}" class="form-control">
+          <option value="true">종지</option>
+          <option value="false">종지 아님</option>
+        </select>
+      </div>
+
       <!-- 오디오 파일 업로드 필드 -->
       <div class="mb-3">
         <label th:for="audioFile" class="form-label">오디오 업로드</label>

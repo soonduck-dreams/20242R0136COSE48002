@@ -38,7 +38,7 @@ public class ProgressionController {
         List<ReadProgressionDTO> dtoList = new ArrayList<>();
         for (Progression progression : progressions) {
             dtoList.add(new ReadProgressionDTO(progression.getId(), progressionService.getProgressionName(progression),
-                        progression.getDescription(), progression.getAudioUrl(), progression.getSampleMidiUrl()));
+                        progression.getDescription(), progression.getAudioUrl(), progression.getSampleMidiUrl(), progression.getIsCadence()));
         }
 
         model.addAttribute("dtoList", dtoList);
@@ -79,7 +79,7 @@ public class ProgressionController {
         List<Chord> chords = chordRepository.findAll();
 
         EditProgressionDTO dto = new EditProgressionDTO(progressionId, chordIds, progression.getDescription(),
-                                                        progression.getAudioUrl(), progression.getSampleMidiUrl());
+                                                        progression.getAudioUrl(), progression.getSampleMidiUrl(), progression.getIsCadence());
 
         model.addAttribute("form", dto);
         model.addAttribute("chords", chords);
@@ -97,6 +97,7 @@ public class ProgressionController {
             List<Chord> chords = chordRepository.findAll();
 
             dto.setId(progressionId);
+            dto.setIsCadence(progression.getIsCadence());
             dto.setChordIds(chordIds);
             dto.setAudioUrl(progression.getAudioUrl());
             dto.setSampleMidiUrl(progression.getSampleMidiUrl());

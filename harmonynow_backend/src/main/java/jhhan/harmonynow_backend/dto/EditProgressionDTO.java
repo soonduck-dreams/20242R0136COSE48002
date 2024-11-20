@@ -1,5 +1,7 @@
 package jhhan.harmonynow_backend.dto;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jhhan.harmonynow_backend.validation.ValidChordIds;
 import jhhan.harmonynow_backend.validation.ValidFileExtension;
 import lombok.Getter;
@@ -16,6 +18,9 @@ public class EditProgressionDTO {
     @ValidChordIds
     private List<Long> chordIds;
 
+    @NotNull(message = "종지 여부는 필수 항목입니다.")
+    private Boolean isCadence;
+
     private String description;
 
     private Boolean isAudioDeleteRequested;
@@ -30,11 +35,12 @@ public class EditProgressionDTO {
     @ValidFileExtension(extensions = {"mid"}, message = "미디 파일 형식은 mid만 가능합니다.")
     private MultipartFile sampleMidiFile;
 
-    public EditProgressionDTO(Long id, List<Long> chordIds, String description, String audioUrl, String sampleMidiUrl) {
+    public EditProgressionDTO(Long id, List<Long> chordIds, String description, String audioUrl, String sampleMidiUrl, Boolean isCadence) {
         this.id = id;
         this.chordIds = chordIds;
         this.description = description;
         this.audioUrl = audioUrl;
         this.sampleMidiUrl = sampleMidiUrl;
+        this.isCadence = isCadence;
     }
 }
