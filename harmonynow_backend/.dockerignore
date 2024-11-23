@@ -1,0 +1,15 @@
+.gradle/
+build/
+!build/libs/harmonynow_backend-0.0.1-SNAPSHOT.jar
+
+.idea/
+*.iml
+.vscode/
+
+*.DS_Store
+Thumbs.db
+
+.git/
+.gitignore
+
+HELP.md

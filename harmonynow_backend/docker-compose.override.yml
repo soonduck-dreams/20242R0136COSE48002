@@ -1,0 +1,4 @@
+services:
+  app:
+    build:
+      dockerfile: Dockerfile # 로컬에서는 기본 Dockerfile 사용

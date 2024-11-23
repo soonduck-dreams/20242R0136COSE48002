@@ -50,7 +50,7 @@ public class AsyncMusicGenerationService {
 
             if (response.getStatusCode() == HttpStatus.OK) {
                 taskService.updateTaskFile(taskId, response.getBody());
-                taskService.updateTaskStatus(taskId, TaskStatus.COMPLETED);
+                taskService.updateTaskStatus(taskId, TaskStatus.COMPLETED_PENDING_RESULT);
             } else {
                 taskService.updateTaskStatus(taskId, TaskStatus.FAILED);
             }
@@ -59,7 +59,8 @@ public class AsyncMusicGenerationService {
             try {
                 taskService.updateTaskStatus(taskId, TaskStatus.FAILED);
             } catch (Exception e1) {
-                System.err.println("update task failed: " + e1.getMessage());
+                e.printStackTrace();
+                System.out.println("AsyncMusicGenerationService.startMusicGeneration: " + e.getMessage());
             }
         }
     }

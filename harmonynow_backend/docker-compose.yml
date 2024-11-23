@@ -1,0 +1,41 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.remote
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    volumes:
+      - ./local_uploads:/app/uploads
+    environment:
+      DB_URL: ${SPRING_DATASOURCE_URL}
+      DB_USER: ${SPRING_DATASOURCE_USERNAME}
+      DB_PW: ${SPRING_DATASOURCE_PASSWORD}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      SOURCE_BASE_PATH: ${SOURCE_BASE_PATH}
+      TARGET_BASE_PATH: ${TARGET_BASE_PATH}
+      OPENAI_URL: ${OPENAI_URL}
+      OPENAI_SECRET_KEY: ${OPENAI_SECRET_KEY}
+      MODEL_SERVER_URL: ${MODEL_SERVER_URL}
+      ADMIN_CODE: ${ADMIN_CODE}
+    depends_on:
+      - redis
+      - postgres
+
+  redis:
+    image: "redis:7.2.4"
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: "postgres:16.2"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
