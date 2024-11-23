@@ -18,7 +18,8 @@ public class MusicGenerationService {
         try {
             taskService.updateTaskStatus(taskId, TaskStatus.IN_PROGRESS);
         } catch (Exception e) {
-            System.err.println("update task failed: " + e.getMessage());
+            e.printStackTrace();
+            System.out.println("MusicGenerationService.createTask: " + e.getMessage());
             return null;
         }
 
@@ -33,5 +34,14 @@ public class MusicGenerationService {
 
     public byte[] getTaskFile(String taskId) {
         return taskService.getTaskFile(taskId);
+    }
+
+    public void updateTaskStatus(String taskId, TaskStatus status) {
+        try {
+            taskService.updateTaskStatus(taskId, status);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("MusicGenerationService.updateTaskStatus: failed to update task status");
+        }
     }
 }

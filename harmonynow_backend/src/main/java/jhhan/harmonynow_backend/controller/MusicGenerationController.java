@@ -49,6 +49,11 @@ public class MusicGenerationController {
                     .body("Task failed.");
         }
 
+        if (taskStatus == TaskStatus.COMPLETED_RESULT_PROVIDED) {
+            return ResponseEntity.status(HttpStatus.GONE)
+                    .body("Task has been completed, but the result has already been provided to you.");
+        }
+
         // 파일 가져오기
         byte[] file = musicGenerationService.getTaskFile(taskId);
         if (file == null) {
@@ -62,6 +67,8 @@ public class MusicGenerationController {
         headers.setContentDisposition(ContentDisposition.builder("attachment")
                 .filename("generated_music.zip") // 파일 이름을 ZIP 형식으로 설정
                 .build());
+
+        musicGenerationService.updateTaskStatus(taskId, TaskStatus.COMPLETED_RESULT_PROVIDED);
 
         // ResponseEntity 생성 및 반환
         return ResponseEntity.ok()
