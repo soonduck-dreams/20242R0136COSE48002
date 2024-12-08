@@ -1,10 +1,18 @@
 #!/bin/bash
 
+# .env 파일 로드
+if [ -f ".env" ]; then
+    export $(cat .env | xargs)
+fi
+
 # 변수 정의
 PROJECT_ROOT=$(pwd)
+DEPLOYMENT_SERVER_HOST_IP=${DEPLOYMENT_SERVER_HOST_IP}
 DEPLOY_DIR="$PROJECT_ROOT/deployment"
 BUILD_DIR="$PROJECT_ROOT/build/libs"
 FILES=("Dockerfile.remote" "docker-compose.yml" ".env")
+
+echo "DEPLOYMENT_SERVER_HOST_IP: $DEPLOYMENT_SERVER_HOST_IP"
 
 # 0. Gradle clean & build 실행
 echo "Running './gradlew clean bootJar' to build the project..."
@@ -42,6 +50,6 @@ for FILE in "${FILES[@]}"; do
     fi
 done
 
-# 완료 메시지
-scp -r ./deployment root@101.101.167.40:/home/web_server
+# 4. ssh로 파일 전송 (원격 서버 인증 필요)
+scp -r ./deployment root@$DEPLOYMENT_SERVER_HOST_IP:/home/web_server
 

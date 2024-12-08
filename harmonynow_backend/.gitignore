@@ -38,8 +38,6 @@ out/
 
 ### 커스텀 ###
 *.map
-/src/main/resources/static/uploads
-/src/main/resources/db
 .env
 local_uploads
 deployment
