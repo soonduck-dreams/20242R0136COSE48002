@@ -1,3 +1,20 @@
+/**
+ * LearnController
+ *
+ * [1. 역할]
+ * - 학습하기 페이지에서 코드(Chord) 및 코드 진행(Progression)의 데이터를 사용자에게 제공하는 컨트롤러.
+ * - 난이도별 코드 목록, 코드 상세 정보, 코드 진행 상세 정보를 제공.
+ *
+ * [2. 주요 기능]
+ * - 난이도(Level)별 코드 목록을 조회하여 사용자 인터페이스에 표시.
+ * - 특정 코드의 상세 정보 및 해당 코드가 포함된 코드 진행 목록을 제공.
+ * - 특정 코드 진행의 상세 정보를 제공.
+ *
+ * [3. 사용 사례]
+ * - 학습하기 페이지에서 난이도별로 코드를 탐색하거나, 코드와 관련된 코드 진행을 확인할 때 사용.
+ */
+
+
 package jhhan.harmonynow_backend.controller;
 
 import jhhan.harmonynow_backend.dto.ReadChordDTO;

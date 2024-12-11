@@ -1,3 +1,21 @@
+/**
+ * TaskService
+ *
+ * [1. 역할]
+ * - Redis를 활용하여 음악 생성 작업(task)의 상태와 결과 파일을 관리하는 서비스 클래스.
+ *
+ * [2. 주요 기능]
+ * - 작업 상태(TaskStatus)를 Redis에 저장 및 업데이트.
+ * - 작업 상태를 Redis에서 조회하고 JSON 데이터를 역직렬화.
+ * - 작업 결과 파일을 Redis에 저장 및 만료 시간 설정.
+ * - 작업 결과 파일을 Redis에서 조회.
+ *
+ * [3. 사용 사례]
+ * - 작업 상태를 클라이언트에 제공하거나, 비동기 작업의 결과 파일을 저장 및 전달.
+ * - 작업 관리의 주요 데이터 저장소로 Redis를 활용.
+ *
+ */
+
 package jhhan.harmonynow_backend.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;

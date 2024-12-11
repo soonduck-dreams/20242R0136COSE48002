@@ -1,3 +1,20 @@
+/**
+ * MusicGenerationController
+ *
+ * [1. 역할]
+ * - 학습하기 페이지에서 코드 진행을 기반으로 음악 생성 요청을 처리하는 API 컨트롤러.
+ * - 음악 생성 작업 요청 및 생성된 음악 파일의 결과를 제공.
+ *
+ * [2. 주요 기능]
+ * - 코드 진행 ID를 기반으로 음악 생성 작업을 시작.
+ * - 생성 작업의 상태를 조회하여 결과를 반환하거나 상태를 전달.
+ * - 음악 생성이 완료된 경우 결과 파일(ZIP 형식)을 반환.
+ *
+ * [3. 사용 사례]
+ * - 학습하기 페이지에서 사용자가 코드 진행을 기반으로 음악 생성을 요청하고 결과를 다운로드할 때 사용.
+ */
+
+
 package jhhan.harmonynow_backend.controller;
 
 import jhhan.harmonynow_backend.service.MusicGenerationService;

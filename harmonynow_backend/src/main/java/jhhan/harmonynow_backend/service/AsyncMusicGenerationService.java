@@ -1,3 +1,20 @@
+/**
+ * AsyncMusicGenerationService
+ *
+ * [1. 역할]
+ * - 비동기적으로 음악 생성 요청을 처리하는 서비스 클래스.
+ * - 사용자의 진행 데이터를 기반으로 음악 생성 모델 서버에 요청을 전송하고 결과를 처리.
+ *
+ * [2. 주요 기능]
+ * - 모델 서버에 MIDI 파일을 포함한 요청 전송.
+ * - 응답 데이터를 파일로 저장하고 작업 상태를 업데이트.
+ * - 예외 상황을 처리하며 작업 실패 시 적절한 상태로 갱신.
+ *
+ * [3. 사용 사례]
+ * - 음악 생성 작업을 비동기적으로 실행하여 사용자 요청에 빠르게 응답.
+ *
+ */
+
 package jhhan.harmonynow_backend.service;
 
 import lombok.RequiredArgsConstructor;

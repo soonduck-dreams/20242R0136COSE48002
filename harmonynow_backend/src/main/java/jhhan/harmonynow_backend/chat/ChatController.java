@@ -1,3 +1,21 @@
+/**
+ * ChatController
+ *
+ * [1. 역할]
+ * - 학습하기 페이지에서 사용되는 대화형 프롬프트 요청을 처리하는 API 컨트롤러.
+ * - 사용자의 요청 데이터를 기반으로 OpenAI API와 통신하여 결과를 반환.
+ *
+ * [2. 주요 기능]
+ * - 프롬프트 설계 및 대화 요청 처리:
+ *   1. `selectPrompt`: 음악 화성학 관련 대화 프롬프트를 생성하여 결과 반환.
+ *   2. `selectStarter`: 대화 시작 질문을 생성하여 결과 반환.
+ * - ChatService를 호출하여 외부 API와의 통신을 처리.
+ *
+ * [3. 사용 사례]
+ * - 사용자가 학습하기 페이지에서 질문을 작성하거나 대화형 도움을 받을 때 API 호출.
+ */
+
+
 package jhhan.harmonynow_backend.chat;
 
 import lombok.RequiredArgsConstructor;

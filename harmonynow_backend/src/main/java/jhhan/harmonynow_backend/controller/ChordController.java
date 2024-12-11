@@ -1,5 +1,21 @@
-package jhhan.harmonynow_backend.controller;
+/**
+ * ChordController
+ *
+ * [1. 역할]
+ * - 관리자 페이지에서 코드(Chord) 관련 데이터를 관리하는 컨트롤러.
+ * - 코드의 목록 조회, 생성, 수정, 삭제 요청을 처리하며, 해당 정보를 사용자 인터페이스에 전달.
+ *
+ * [2. 주요 기능]
+ * - 코드 목록을 조회하여 관리자 페이지에서 표시.
+ * - 새로운 코드 생성 폼 표시 및 생성 처리.
+ * - 코드 수정 폼 표시 및 수정 처리.
+ * - 코드 삭제 요청 처리.
+ *
+ * [3. 사용 사례]
+ * - 관리자 페이지에서 코드 목록을 확인하고, 새로운 코드를 추가하거나 기존 코드를 수정/삭제할 때 사용.
+ */
 
+package jhhan.harmonynow_backend.controller;
 
 import jakarta.validation.Valid;
 import jhhan.harmonynow_backend.domain.Chord;
