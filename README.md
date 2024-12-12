@@ -39,14 +39,123 @@ HarmonyNow 프로젝트는 이러한 문제를 해결하고 창작의 효율성�
 - 웹 서버와 모델 서버 각각 GitHub 리포지토리로 형상 관리
 - 모델 서버 리포지토리를 웹 서버 리포지토리에 submodule로 추가하여 웹 서버 리포지토리에서 모델 서버의 codebase도 함께 확인할 수 있게 관리
 
+# Requirements
+이 프로젝트를 설치하고 실행하기 위해서는 다음 프로그램들이 필요합니다.
+- Java 17 이상
+- Docker
+- Docker Compose
+
 # How to install and run
-to be added
+1. 이 리포지토리를 `git clone`합니다.
+```
+git clone https://github.com/soonduck-dreams/20242R0136COSE48002.git
+```
+
+2. harmonynow_backend 디렉토리로 이동하세요.
+```
+cd harmonynow_backend
+```
+
+3. 이 프로젝트는 실행에 필요한 환경 변수를 .env 파일로 관리합니다. 아래와 같이 `/harmonynow_backend` 디렉토리에 .env 파일을 생성하고 설정합니다.
+`/harmonynow_backend/.env`:
+```
+# PostgreSQL 데이터베이스 설정
+DB_NAME=your_database_name                    # 사용할 데이터베이스 이름
+SPRING_DATASOURCE_URL=jdbc:postgresql://your_postgres_host:5432/your_database_name # 데이터베이스 연결 URL
+SPRING_DATASOURCE_USERNAME=your_database_user    # 데이터베이스 사용자 이름
+SPRING_DATASOURCE_PASSWORD=your_database_password # 데이터베이스 사용자 비밀번호
+
+# Redis 설정
+REDIS_HOST=your_redis_host                     # Redis 서버 호스트 이름 (컨테이너 내부 이름 사용 가능)
+REDIS_PORT=6379                                # Redis 서버 포트 번호
+
+# 파일 경로 설정
+SOURCE_BASE_PATH=classpath:db/dummyfiles/      # 초기 데이터의 소스 경로
+TARGET_BASE_PATH=/app/uploads                  # 업로드된 파일이 저장될 경로
+
+# OpenAI API 설정
+OPENAI_SECRET_KEY=your_openai_secret_key       # OpenAI API의 비밀 키
+OPENAI_URL=https://api.openai.com/v1/chat/completions # OpenAI API의 기본 URL
+
+# 음악 생성 모델 서버 URL
+MODEL_SERVER_URL=http://your_model_server_url:8000 # 모델 서버의 엔드포인트
+
+# 관리자 코드
+ADMIN_CODE=your_admin_code                     # 애플리케이션에서 사용할 관리자 코드
+
+# 배포 서버 IP
+DEPLOYMENT_SERVER_HOST_IP=your_deployment_server_ip # 배포 서버의 IP 주소
+```
+
+A. 다음 명령어를 실행하여 애플리케이션을 로컬에서 실행합니다:
+```
+./run_locally.sh
+```
+- 이 명령어는 Gradle 빌드, Docker Compose 빌드 및 컨테이너 실행을 자동으로 처리합니다.
+- 실행 후, 애플리케이션은 기본적으로 `http://localhost:8080`에서 실행됩니다.
+
+B-1. 다음 명령어를 실행하여 애플리케이션을 실행하기 위해 필요한 파일들을 원격 서버에 배포합니다.
+```
+./prepare-deployment.sh
+```
+- 배포 전에 .env 파일에서 DEPLOYMENT_SERVER_HOST_IP 값이 올바르게 설정되어 있는지 확인하세요.
+- 원격 서버에 대한 SSH 인증이 필요할 수 있습니다.
+
+B-2. `./prepare-deployment.sh`로 파일들을 배포한 후, 원격 서버에서 애플리케이션을 실행하려면 다음 명령어를 사용합니다:
+```
+docker compose up
+```
 
 # Development Environment
-to be added
+- OS: Windows 11(로컬 개발 환경), CentOS 7.8(배포 환경, Naver Cloud Platform)
+- IDE: IntelliJ IDEA
+- DB: PostgreSQL
+- Framework & Libraries
+  - Spring Boot ─ 웹 애플리케이션 프레임워크
+  - Thymeleaf ─ 서버사이드 템플릿 엔진
+  - JPA ─ 데이터베이스 ORM 관리
+  - Redis ─ 인메모리 데이터 스토리지 (모델 서버로부터 받은 음악 파일 캐시)
+  - Flyway ─ SQL 버전 관리, DB 생성 및 초기 데이터 삽입 자동화
+ 
+- 모델 서버의 개발 환경은 `/model/README.md`에서 확인할 수 있습니다.
 
 # Directory Structure
-to be added
+```
+project-root/
+├── model/  # 음악 생성용 모델 서버 repository. git submodule로 최신 commit 참조.
+└── harmonynow_backend/
+    ├── src/
+    │   └── main/
+    │       ├── java/
+    │       │   └── jhhan/harmonynow_backend/
+    │       │       ├── chat/          # 채팅(질문하기) 기능 관련
+    │       │       ├── config/        # 설정 관련 코드
+    │       │       ├── controller/    # 컨트롤러 계층
+    │       │       ├── domain/        # 도메인 모델
+    │       │       ├── dto/           # 데이터 전송 객체
+    │       │       ├── exception/     # 예외 처리
+    │       │       ├── repository/    # 데이터베이스 접근 계층
+    │       │       ├── service/       # 비즈니스 로직 계층
+    │       │       ├── utils/         # 유틸리티 코드 (파일 입출력)
+    │       │       └── validation/    # 폼 데이터 검증
+    │       └── resources/
+    │           ├── db/
+    │           │   ├── seedfiles/     # 개발 및 시연용 초기 데이터
+    │           │   │   ├── chord/     # 코드(chord)의 소리와 건반 위치 이미지 (audio/, image/)
+    │           │   │   └── progression/  # 코드 진행(progression)의 소리와 MIDI 샘플 (audio/, sample_midi/)
+    │           │   └── migration/     # 데이터베이스 마이그레이션 파일 (Flyway 기반 SQL 실행)
+    │           ├── static/            # 정적 파일 (css/, image/, js/)
+    │           └── templates/         # HTML 템플릿
+    ├── Dockerfile                     # Spring Boot 이미지 빌드 파일 (로컬 개발용)
+    ├── Dockerfile.remote              # Spring Boot 이미지 빌드 파일 (배포 환경용)
+    ├── docker-compose.yml             # 컨테이너(Web, Redis, PostgreSQL) 구성
+    ├── docker-compose.override.yml    # 로컬 개발용 Docker Compose override 정의
+    ├── run-locally.sh                 # 로컬 개발 환경 실행 스크립트 (JAR 빌드 및 컨테이너 시작)
+    ├── prepare-deployment.sh          # 배포 스크립트 (JAR 빌드, 파일 준비 및 서버 전송)
+    ├── build.gradle                   # 프로젝트 빌드 설정 파일 
+    │                                   # (프레임워크 및 라이브러리 정의, 종속성 관리)
+    └── ... (기타 설정 파일)
+```
 
 # Demonstration Video
 to be added
