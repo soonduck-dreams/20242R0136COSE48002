@@ -140,7 +140,7 @@ project-root/
     │       │       └── validation/    # 폼 데이터 검증
     │       └── resources/
     │           ├── db/
-    │           │   ├── seedfiles/     # 개발 및 시연용 초기 데이터
+    │           │   ├── dummyfiles/     # 개발 및 시연용 초기 데이터
     │           │   │   ├── chord/     # 코드(chord)의 소리와 건반 위치 이미지 (audio/, image/)
     │           │   │   └── progression/  # 코드 진행(progression)의 소리와 MIDI 샘플 (audio/, sample_midi/)
     │           │   └── migration/     # 데이터베이스 마이그레이션 파일 (Flyway 기반 SQL 실행)
