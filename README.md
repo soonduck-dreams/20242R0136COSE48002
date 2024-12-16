@@ -44,6 +44,7 @@ HarmonyNow 프로젝트는 이러한 문제를 해결하고 창작의 효율성�
 - Java 17 이상
 - Docker
 - Docker Compose
+- (Optional) Docker Desktop (Windows 환경에서 실행 시 필요할 수 있습니다)
 
 # How to install and run
 1. 이 리포지토리를 `git clone`합니다.
