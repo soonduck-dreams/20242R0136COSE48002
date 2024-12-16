@@ -90,7 +90,7 @@ DEPLOYMENT_SERVER_HOST_IP=your_deployment_server_ip # 배포 서버의 IP 주소
 
 A. 다음 명령어를 실행하여 애플리케이션을 로컬에서 실행합니다:
 ```
-./run_locally.sh
+./run-locally.sh
 ```
 - 이 명령어는 Gradle 빌드, Docker Compose 빌드 및 컨테이너 실행을 자동으로 처리합니다.
 - 실행 후, 애플리케이션은 기본적으로 `http://localhost:8080`에서 실행됩니다.
