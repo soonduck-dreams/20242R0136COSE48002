@@ -159,7 +159,7 @@ project-root/
 ```
 
 # Demonstration Video
-to be added
+[Youtube Link](https://youtu.be/uLgCA44wL8U)
 
 # License
 The code for constructing anticipatory infilling models and weights for the Anticipatory Music Transformer used in this project is under the Apache License, Version 2.0.
