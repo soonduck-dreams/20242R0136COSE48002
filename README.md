@@ -162,4 +162,4 @@ project-root/
 to be added
 
 # License
-to be added
+The code for constructing anticipatory infilling models and weights for the Anticipatory Music Transformer used in this project is under the Apache License, Version 2.0.
